@@ -294,7 +294,7 @@ class date_views_filter_handler_simple extends views_handler_filter_date {
         $which = in_array($this->operator, $this->operator_values(2)) ? 'minmax' : 'value';
       }
       else {
-        $source = 'edit-' . drupal_html_id($this->options['expose']['operator_id']);
+        $source = 'edit-' . backdrop_html_id($this->options['expose']['operator_id']);
       }
     }
 

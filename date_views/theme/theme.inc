@@ -180,8 +180,8 @@ function theme_date_nav_title($params) {
   $date_info = $view->date_info;
   $link = !empty($params['link']) ? $params['link'] : FALSE;
   $format = !empty($params['format']) ? $params['format'] : NULL;
-  $format_with_year = variable_get('date_views_' . $granularity . '_format_with_year', 'l, F j, Y');
-  $format_without_year = variable_get('date_views_' . $granularity . '_format_without_year', 'l, F j');
+  $format_with_year = config_get('date.settings','date_views_' . $granularity . '_format_with_year', 'l, F j, Y');
+  $format_without_year = config_get('date.settings','date_views_' . $granularity . '_format_without_year', 'l, F j');
   switch ($granularity) {
     case 'year':
       $title = $date_info->year;
@@ -228,11 +228,11 @@ function theme_date_nav_title($params) {
  */
 function template_preprocess_date_views_filter_form(&$vars) {
   $form = $vars['form'];
-  $vars['date'] = drupal_render($form['valuedate']);
-  $vars['mindate'] = drupal_render($form['mindate']);
-  $vars['maxdate'] = drupal_render($form['maxdate']);
-  $vars['adjustment'] = drupal_render($form['valueadjustment']);
-  $vars['minadjustment'] = drupal_render($form['minadjustment']);
-  $vars['maxadjustment'] = drupal_render($form['maxadjustment']);
-  $vars['description'] = drupal_render($form['description']) . drupal_render($form);
+  $vars['date'] = backdrop_render($form['valuedate']);
+  $vars['mindate'] = backdrop_render($form['mindate']);
+  $vars['maxdate'] = backdrop_render($form['maxdate']);
+  $vars['adjustment'] = backdrop_render($form['valueadjustment']);
+  $vars['minadjustment'] = backdrop_render($form['minadjustment']);
+  $vars['maxadjustment'] = backdrop_render($form['maxadjustment']);
+  $vars['description'] = backdrop_render($form['description']) . backdrop_render($form);
 }

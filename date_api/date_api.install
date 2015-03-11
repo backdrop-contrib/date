@@ -17,12 +17,12 @@ function date_api_set_variables() {
   // The odd construct of using variable_get() instead of variable_set()
   // is so we don't accidentally write over an existing value. If
   // no value is set, variable_get() will set it.
-  variable_get('date_max_year', 4000);
-  variable_get('date_min_year', 1);
-  variable_get('date_php_min_year', 1901);
+  config_get('date.settings','date_max_year', 4000);
+  config_get('date.settings','date_min_year', 1);
+  config_get('date.settings','date_php_min_year', 1901);
 
   // Set an API version in a way that other modules can test for compatibility.
-  variable_set('date_api_version', '7.2');
+  config_set('date.settings','date_api_version', '7.2');
 }
 
 /**
@@ -61,8 +61,8 @@ function date_api_requirements($phase) {
  * Implements hook_install().
  */
 function date_api_install() {
-  // Only set the message if Drupal itself is already installed.
-  if (variable_get('install_task') == 'done') {
+  // Only set the message if Backdrop itself is already installed.
+  if (config_get('date.settings','install_task') == 'done') {
     // Ensure translations don't break at install time.
     $t = get_t();
 
@@ -73,7 +73,7 @@ function date_api_install() {
     date_api_set_variables();
 
     $message = $t('The Date API requires that you set up the <a href="@regional_settings">site timezone and first day of week settings</a> and the <a href="@regional_date_time">date format settings</a> to function correctly.', array('@regional_settings' => url('admin/config/regional/settings'), '@regional_date_time' => url('admin/config/regional/date-time')));
-    drupal_set_message(filter_xss_admin($message), 'warning');
+    backdrop_set_message(filter_xss_admin($message), 'warning');
   }
 }
 
@@ -98,7 +98,7 @@ function date_api_uninstall() {
     'date_api_use_iso8601',
   );
   foreach ($variables as $variable) {
-    variable_del($variable);
+    config_del($variable);
   }
 
   if (db_table_exists('views_display')) {

@@ -77,7 +77,7 @@ class date_views_argument_handler_simple extends views_handler_argument_date {
       else {
         $value = date($this->arg_format, REQUEST_TIME);
       }
-      drupal_alter('date_default_argument', $this, $value);
+      backdrop_alter('date_default_argument', $this, $value);
 
       return $value;
     }

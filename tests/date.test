@@ -24,7 +24,7 @@ class DateUITestCase extends DateFieldBasic {
   public function setUp() {
     parent::setUp();
 
-    variable_set('date_format_long', 'D, m/d/Y - H:i');
+    config_set('date.settings','date_format_long', 'D, m/d/Y - H:i');
   }
 
   /**
@@ -56,7 +56,7 @@ class DateUITestCase extends DateFieldBasic {
     // Test timezone handling validation on the field settings form.
     $this->createDateField(array('label' => $label, 'field_type' => 'date', 'widget_type' => 'date_select', 'granularity' => array('year', 'month', 'day')));
     $edit = array('field[settings][granularity][hour]' => FALSE);
-    $this->drupalPost('admin/structure/types/manage/story/fields/field_' . strtolower($label), $edit, t('Save settings'));
+    $this->backdropPost('admin/structure/types/manage/story/fields/field_' . strtolower($label), $edit, t('Save settings'));
     $this->assertText("Dates without hours granularity must not use any timezone handling.", "Dates without hours granularity required to use timezone handling of 'none.'");
     $this->deleteDateField($label);
   }
@@ -85,7 +85,7 @@ class DateUITestCase extends DateFieldBasic {
       $edit['field_test[und][0][value][date]'] = format_string('10/07/!year', array('!year' => $current_year));
       $edit['field_test[und][0][value][time]'] = '10:30';
     }
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $this->assertText($edit['body[und][0][value]'], 'Test node has been created');
   }
 }

@@ -63,7 +63,7 @@ fieldset.date-combo .container-inline-date .date-padding {
   padding: 0;
 }
 
-/* Fixes for date popup css so it will behave in Drupal */
+/* Fixes for date popup css so it will behave in Backdrop */
 #calendar_div,
 #calendar_div td,
 #calendar_div th {

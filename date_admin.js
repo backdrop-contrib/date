@@ -1,17 +1,17 @@
 (function ($) {
 
-Drupal.behaviors.dateAdmin = {};
+Backdrop.behaviors.dateAdmin = {};
 
-Drupal.behaviors.dateAdmin.attach = function (context, settings) {
+Backdrop.behaviors.dateAdmin.attach = function (context, settings) {
   // Remove timezone handling options for fields without hours granularity.
   var $hour = $('#edit-field-settings-granularity-hour').once('date-admin');
   if ($hour.length) {
-    new Drupal.dateAdmin.TimezoneHandler($hour);
+    new Backdrop.dateAdmin.TimezoneHandler($hour);
   }
 };
 
 
-Drupal.dateAdmin = {};
+Backdrop.dateAdmin = {};
 
 /**
  * Constructor for the TimezoneHandler object.
@@ -20,7 +20,7 @@ Drupal.dateAdmin = {};
  * when the user has chosen to collect hours as part of the date field, and
  * hiding it otherwise.
  */
-Drupal.dateAdmin.TimezoneHandler = function ($checkbox) {
+Backdrop.dateAdmin.TimezoneHandler = function ($checkbox) {
   this.$checkbox = $checkbox;
   this.$dropdown = $('#edit-field-settings-tz-handling');
   this.$timezoneDiv = $('.form-item-field-settings-tz-handling');
@@ -37,7 +37,7 @@ Drupal.dateAdmin.TimezoneHandler = function ($checkbox) {
 /**
  * Event handler triggered when the user clicks the "Hour" checkbox.
  */
-Drupal.dateAdmin.TimezoneHandler.prototype.clickHandler = function () {
+Backdrop.dateAdmin.TimezoneHandler.prototype.clickHandler = function () {
   if (this.$checkbox.is(':checked')) {
     this.restoreTimezoneHandlingOptions();
   }
@@ -49,7 +49,7 @@ Drupal.dateAdmin.TimezoneHandler.prototype.clickHandler = function () {
 /**
  * Hide the timezone handling options section of the form.
  */
-Drupal.dateAdmin.TimezoneHandler.prototype.hideTimezoneHandlingOptions = function () {
+Backdrop.dateAdmin.TimezoneHandler.prototype.hideTimezoneHandlingOptions = function () {
   this.storeTimezoneHandling();
   this.$dropdown.val('none');
   this.$timezoneDiv.hide();
@@ -58,7 +58,7 @@ Drupal.dateAdmin.TimezoneHandler.prototype.hideTimezoneHandlingOptions = functio
 /**
  * Show the timezone handling options section of the form.
  */
-Drupal.dateAdmin.TimezoneHandler.prototype.restoreTimezoneHandlingOptions = function () {
+Backdrop.dateAdmin.TimezoneHandler.prototype.restoreTimezoneHandlingOptions = function () {
   var val = this.getTimezoneHandling();
   this.$dropdown.val(val);
   this.$timezoneDiv.show();
@@ -67,14 +67,14 @@ Drupal.dateAdmin.TimezoneHandler.prototype.restoreTimezoneHandlingOptions = func
 /**
  * Store the current value of the timezone handling dropdown.
  */
-Drupal.dateAdmin.TimezoneHandler.prototype.storeTimezoneHandling = function () {
+Backdrop.dateAdmin.TimezoneHandler.prototype.storeTimezoneHandling = function () {
   this._timezoneHandling = this.$dropdown.val();
 };
 
 /**
  * Return the stored value of the timezone handling dropdown.
  */
-Drupal.dateAdmin.TimezoneHandler.prototype.getTimezoneHandling = function () {
+Backdrop.dateAdmin.TimezoneHandler.prototype.getTimezoneHandling = function () {
   return this._timezoneHandling;
 };
 

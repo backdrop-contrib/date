@@ -28,14 +28,14 @@ function date_popup_add() {
   if ($loaded) {
     return;
   }
-  drupal_add_library('system', 'ui.datepicker');
-  drupal_add_library('date_popup', 'timeentry');
+  backdrop_add_library('system', 'ui.datepicker');
+  backdrop_add_library('date_popup', 'timeentry');
 
   // Add the wvega-timepicker library if it's available.
   $wvega_path = date_popup_get_wvega_path();
   if ($wvega_path) {
-    drupal_add_js($wvega_path . '/jquery.timepicker.js');
-    drupal_add_css($wvega_path . '/jquery.timepicker.css');
+    backdrop_add_js($wvega_path . '/jquery.timepicker.js');
+    backdrop_add_css($wvega_path . '/jquery.timepicker.css');
   }
   $loaded = TRUE;
 }
@@ -77,7 +77,7 @@ function date_popup_get_preferred_timepicker() {
 function date_popup_library() {
   $libraries = array();
 
-  $path = drupal_get_path('module', 'date_popup');
+  $path = backdrop_get_path('module', 'date_popup');
   $libraries['timeentry'] = array(
     'title' => 'Time Entry',
     'website' => 'http://plugins.jquery.com/project/timeEntry',
@@ -103,7 +103,7 @@ function date_popup_library() {
  * requiring a duplicate copy of the settings/code for every element
  * that uses them, but is much faster.  We could combine the logic by
  * putting the ids for each unique function/settings combo into
- * Drupal.settings and searching for each listed id.
+ * Backdrop.settings and searching for each listed id.
  *
  * @param string $id
  *   The CSS class prefix to search the DOM for.
@@ -135,7 +135,7 @@ function date_popup_js_settings_id($id, $func, $settings) {
   }
 
   if (!$js_added) {
-    drupal_add_js(drupal_get_path('module', 'date_popup') . '/date_popup.js');
+    backdrop_add_js(backdrop_get_path('module', 'date_popup') . '/date_popup.js');
     $js_added = TRUE;
   }
 
@@ -153,7 +153,7 @@ function date_popup_js_settings_id($id, $func, $settings) {
     'func' => $func,
     'settings' => $settings,
   );
-  drupal_add_js($js_settings, 'setting');
+  backdrop_add_js($js_settings, 'setting');
   return $return_id;
 }
 
@@ -213,9 +213,9 @@ function date_popup_element_info() {
     '#tree' => TRUE,
     '#date_timezone' => date_default_timezone(),
     '#date_flexible' => 0,
-    '#date_format' => variable_get('date_format_short', 'm/d/Y - H:i'),
+    '#date_format' => config_get('date.settings','date_format_short', 'm/d/Y - H:i'),
     '#datepicker_options' => array(),
-    '#timepicker' => variable_get('date_popup_timepicker', $timepicker),
+    '#timepicker' => config_get('date.settings','date_popup_timepicker', $timepicker),
     '#date_increment' => 1,
     '#date_year_range' => '-3:+3',
     '#date_label_position' => 'above',
@@ -342,7 +342,7 @@ function date_popup_element_process($element, &$form_state, $form) {
   $context = array(
     'form' => $form,
   );
-  drupal_alter('date_popup_process', $element, $form_state, $context);
+  backdrop_alter('date_popup_process', $element, $form_state, $context);
 
   return $element;
 }
@@ -384,13 +384,13 @@ function date_popup_process_date_part(&$element) {
     'autoPopUp' => 'focus',
     'closeAtTop' => FALSE,
     'speed' => 'immediate',
-    'firstDay' => intval(variable_get('date_first_day', 0)),
+    'firstDay' => intval(config_get('date.settings','date_first_day', 0)),
     // 'buttonImage' => base_path()
-    // . drupal_get_path('module', 'date_api') ."/images/calendar.png",
+    // . backdrop_get_path('module', 'date_api') ."/images/calendar.png",
     // 'buttonImageOnly' => TRUE,
     'dateFormat' => date_popup_format_to_popup(date_popup_date_format($element), 'datepicker'),
     'yearRange' => $year_range,
-    // Custom setting, will be expanded in Drupal.behaviors.date_popup()
+    // Custom setting, will be expanded in Backdrop.behaviors.date_popup()
     'fromTo' => isset($fromto),
   );
 
@@ -551,14 +551,14 @@ function date_popup_validate($element, &$form_state) {
   date_popup_add();
 
   $input_exists = NULL;
-  $input = drupal_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
+  $input = backdrop_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
   // If the date is a string, it is not considered valid and can cause problems
   // later on, so just exit out now.
   if (is_string($input)) {
     return;
   }
 
-  drupal_alter('date_popup_pre_validate', $element, $form_state, $input);
+  backdrop_alter('date_popup_pre_validate', $element, $form_state, $input);
 
   $granularity = date_format_order($element['#date_format']);
   $date_granularity = date_popup_date_granularity($element);
@@ -660,7 +660,7 @@ function date_popup_formats() {
   }
 
   $formats = str_replace('i', 'i:s', array_keys($formats));
-  $formats = drupal_map_assoc($formats);
+  $formats = backdrop_map_assoc($formats);
 
   return $formats;
 }
@@ -795,9 +795,9 @@ function theme_date_popup($vars) {
   // Add an wrapper to mimic the way a single value field works,
   // for ease in using #states.
   if (isset($element['#children'])) {
-    $element['#children'] = '<div id="' . $element['#id'] . '" ' . drupal_attributes($wrapper_attributes) . '>' . $element['#children'] . '</div>';
+    $element['#children'] = '<div id="' . $element['#id'] . '" ' . backdrop_attributes($wrapper_attributes) . '>' . $element['#children'] . '</div>';
   }
-  return '<div ' . drupal_attributes($attributes) . '>' . theme('form_element', $element) . '</div>';
+  return '<div ' . backdrop_attributes($attributes) . '>' . theme('form_element', $element) . '</div>';
 }
 
 /**
@@ -809,7 +809,7 @@ function date_popup_menu() {
   $items['admin/config/date/date_popup'] = array(
     'title' => 'Date Popup',
     'description' => 'Configure the Date Popup settings.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('date_popup_settings'),
     'access callback' => 'user_access',
     'access arguments' => array('administer site configuration'),
@@ -832,7 +832,7 @@ function date_popup_settings() {
       'none'    => t('Manual time entry, no jQuery timepicker'),
     ),
     '#title' => t('Timepicker'),
-    '#default_value' => variable_get('date_popup_timepicker', $preferred_timepicker),
+    '#default_value' => config_get('date.settings','date_popup_timepicker', $preferred_timepicker),
   );
 
   if (!$wvega_available) {

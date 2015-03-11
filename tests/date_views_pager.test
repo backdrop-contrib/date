@@ -5,7 +5,7 @@
  * Views date pager skipping test.
  */
 
-class ViewsPagerSkippingTestCase extends DrupalWebTestCase {
+class ViewsPagerSkippingTestCase extends BackdropWebTestCase {
   /**
    * Test info.
    */
@@ -26,8 +26,8 @@ class ViewsPagerSkippingTestCase extends DrupalWebTestCase {
     // Set required permissions.
     $permissions = array('administer views', 'administer site configuration');
     // Create admin user and login.
-    $admin_user = $this->drupalCreateUser($permissions);
-    $this->drupalLogin($admin_user);
+    $admin_user = $this->backdropCreateUser($permissions);
+    $this->backdropLogin($admin_user);
 
     // Create a new view for test.
     $view = new view();
@@ -90,15 +90,15 @@ class ViewsPagerSkippingTestCase extends DrupalWebTestCase {
    */
   public function testPagerSkipping() {
     // Go to view admin page.
-    $this->drupalGet('admin/structure/views/view/display/test_date_pager/edit');
+    $this->backdropGet('admin/structure/views/view/display/test_date_pager/edit');
     // Go to pager options.
-    $this->drupalGet('admin/structure/views/nojs/display/test_date_pager/default/pager_options');
+    $this->backdropGet('admin/structure/views/nojs/display/test_date_pager/default/pager_options');
     // Check if "Skip empty pages" text - exist.
     $this->assertText('Skip empty pages');
     // Check if field and it's value is correct.
     $this->assertFieldByName('pager_options[skip_empty_pages]', '1');
     // Go back to view admin page.
-    $this->drupalGet('admin/structure/views/view/display/test_date_pager/edit');
+    $this->backdropGet('admin/structure/views/view/display/test_date_pager/edit');
     // Check if pager on empty page are gone.
     $this->assertNoText('« Prev', 'Previous pager does not exist');
     $this->assertNoText('Next »', 'Next pager does not exist');

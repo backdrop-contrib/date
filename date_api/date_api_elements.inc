@@ -68,7 +68,7 @@ function _date_api_element_info() {
     '#input' => TRUE, '#tree' => TRUE,
     '#date_timezone' => date_default_timezone(),
     '#date_flexible' => 0,
-    '#date_format' => variable_get('date_format_short', 'm/d/Y - H:i'),
+    '#date_format' => config_get('date.settings','date_format_short', 'm/d/Y - H:i'),
     '#date_text_parts' => array(),
     '#date_increment' => 1,
     '#date_year_range' => '-3:+3',
@@ -171,12 +171,12 @@ function date_year_range_element_process($element, &$form_state, $form) {
   );
 
   $element['#tree'] = TRUE;
-  $element['#attached']['js'][] = drupal_get_path('module', 'date_api') . '/date_year_range.js';
+  $element['#attached']['js'][] = backdrop_get_path('module', 'date_api') . '/date_year_range.js';
 
   $context = array(
     'form' => $form,
   );
-  drupal_alter('date_year_range_process', $element, $form_state, $context);
+  backdrop_alter('date_year_range_process', $element, $form_state, $context);
 
   return $element;
 }
@@ -202,9 +202,9 @@ function date_year_range_element_value_callback($element, $input = FALSE, &$form
 function date_year_range_validate(&$element, &$form_state) {
   // Recombine the two submitted form values into the -3:+3 format we will
   // validate and save.
-  $year_range_submitted = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
+  $year_range_submitted = backdrop_array_get_nested_value($form_state['values'], $element['#parents']);
   $year_range = $year_range_submitted['years_back'] . ':' . $year_range_submitted['years_forward'];
-  drupal_array_set_nested_value($form_state['values'], $element['#parents'], $year_range);
+  backdrop_array_set_nested_value($form_state['values'], $element['#parents'], $year_range);
   if (!date_range_valid($year_range)) {
     form_error($element['years_back'], t('Starting year must be in the format -9, or an absolute year such as 1980.'));
     form_error($element['years_forward'], t('Ending year must be in the format +9, or an absolute year such as 2030.'));
@@ -262,7 +262,7 @@ function date_timezone_element_process($element, &$form_state, $form) {
   $context = array(
     'form' => $form,
   );
-  drupal_alter('date_timezone_process', $element, $form_state, $context);
+  backdrop_alter('date_timezone_process', $element, $form_state, $context);
 
   return $element;
 }
@@ -355,7 +355,7 @@ function date_text_element_process($element, &$form_state, $form) {
   $context = array(
     'form' => $form,
   );
-  drupal_alter('date_text_process', $element, $form_state, $context);
+  backdrop_alter('date_text_process', $element, $form_state, $context);
 
   return $element;
 }
@@ -376,14 +376,14 @@ function date_text_validate($element, &$form_state) {
     return;
   }
   $input_exists = NULL;
-  $input = drupal_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
+  $input = backdrop_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
 
   // Trim extra spacing off user input of text fields.
   if (isset($input['date'])) {
     $input['date'] = trim($input['date']);
   }
 
-  drupal_alter('date_text_pre_validate', $element, $form_state, $input);
+  backdrop_alter('date_text_pre_validate', $element, $form_state, $input);
 
   $label = !empty($element['#date_title']) ? $element['#date_title'] : (!empty($element['#title']) ? $element['#title'] : '');
   $date = date_text_input_date($element, $input);
@@ -528,7 +528,7 @@ function date_select_element_process($element, &$form_state, $form) {
   $context = array(
     'form' => $form,
   );
-  drupal_alter('date_select_process', $element, $form_state, $context);
+  backdrop_alter('date_select_process', $element, $form_state, $context);
 
   return $element;
 }
@@ -580,7 +580,7 @@ function date_parts_element($element, $date, $format) {
 
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('Y') : '';
         if ($part_type == 'select') {
-          $sub_element[$field]['#options'] = drupal_map_assoc(date_years($min_year, $max_year, $part_required));
+          $sub_element[$field]['#options'] = backdrop_map_assoc(date_years($min_year, $max_year, $part_required));
         }
         break;
 
@@ -594,14 +594,14 @@ function date_parts_element($element, $date, $format) {
       case 'day':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('j') : '';
         if ($part_type == 'select') {
-          $sub_element[$field]['#options'] = drupal_map_assoc(date_days($part_required));
+          $sub_element[$field]['#options'] = backdrop_map_assoc(date_days($part_required));
         }
         break;
 
       case 'hour':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format($hours_format) : '';
         if ($part_type == 'select') {
-          $sub_element[$field]['#options'] = drupal_map_assoc(date_hours($hours_format, $part_required));
+          $sub_element[$field]['#options'] = backdrop_map_assoc(date_hours($hours_format, $part_required));
         }
         $sub_element[$field]['#prefix'] = theme('date_part_hour_prefix', $element);
         break;
@@ -609,7 +609,7 @@ function date_parts_element($element, $date, $format) {
       case 'minute':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('i') : '';
         if ($part_type == 'select') {
-          $sub_element[$field]['#options'] = drupal_map_assoc(date_minutes('i', $part_required, $element['#date_increment']));
+          $sub_element[$field]['#options'] = backdrop_map_assoc(date_minutes('i', $part_required, $element['#date_increment']));
         }
         $sub_element[$field]['#prefix'] = theme('date_part_minsec_prefix', $element);
         break;
@@ -617,7 +617,7 @@ function date_parts_element($element, $date, $format) {
       case 'second':
         $sub_element[$field]['#default_value'] = is_object($date) ? $date->format('s') : '';
         if ($part_type == 'select') {
-          $sub_element[$field]['#options'] = drupal_map_assoc(date_seconds('s', $part_required, $element['#date_increment']));
+          $sub_element[$field]['#options'] = backdrop_map_assoc(date_seconds('s', $part_required, $element['#date_increment']));
         }
         $sub_element[$field]['#prefix'] = theme('date_part_minsec_prefix', $element);
         break;
@@ -670,7 +670,7 @@ function date_parts_element($element, $date, $format) {
       '#title' => $label,
       '#title_display' => in_array($element['#date_label_position'], array('within', 'none')) ? 'invisible' : 'before',
       '#default_value' => is_object($date) ? (date_format($date, 'G') >= 12 ? 'pm' : 'am') : '',
-      '#options' => drupal_map_assoc(date_ampm($part_required)),
+      '#options' => backdrop_map_assoc(date_ampm($part_required)),
       '#required' => $part_required,
       '#weight' => 8,
       '#attributes' => array('class' => array('date-ampm')),
@@ -700,7 +700,7 @@ function date_select_validate($element, &$form_state) {
   }
 
   $input_exists = NULL;
-  $input = drupal_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
+  $input = backdrop_array_get_nested_value($form_state['values'], $element['#parents'], $input_exists);
 
   // Strip field labels out of the results.
   foreach ($element['#value'] as $field => $field_value) {
@@ -709,7 +709,7 @@ function date_select_validate($element, &$form_state) {
     }
   }
 
-  drupal_alter('date_select_pre_validate', $element, $form_state, $input);
+  backdrop_alter('date_select_pre_validate', $element, $form_state, $input);
 
   $label = !empty($element['#date_title']) ? $element['#date_title'] : (!empty($element['#title']) ? $element['#title'] : '');
   if (isset($input['ampm'])) {

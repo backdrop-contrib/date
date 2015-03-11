@@ -1,17 +1,17 @@
 (function ($) {
 
 
-Drupal.behaviors.dateSelect = {};
+Backdrop.behaviors.dateSelect = {};
 
-Drupal.behaviors.dateSelect.attach = function (context, settings) {
+Backdrop.behaviors.dateSelect.attach = function (context, settings) {
   var $widget = $('.form-type-date-select').parents('fieldset').once('date');
   var i;
   for (i = 0; i < $widget.length; i++) {
-    new Drupal.date.EndDateHandler($widget[i]);
+    new Backdrop.date.EndDateHandler($widget[i]);
   }
 };
 
-Drupal.date = Drupal.date || {};
+Backdrop.date = Backdrop.date || {};
 
 /**
  * Constructor for the EndDateHandler object.
@@ -23,7 +23,7 @@ Drupal.date = Drupal.date || {};
  * @param widget
  *   The fieldset DOM element containing the from and to dates.
  */
-Drupal.date.EndDateHandler = function (widget) {
+Backdrop.date.EndDateHandler = function (widget) {
   this.$widget = $(widget);
   this.$start = this.$widget.find('.form-type-date-select[class$=value]');
   this.$end = this.$widget.find('.form-type-date-select[class$=value2]');
@@ -44,7 +44,7 @@ Drupal.date.EndDateHandler = function (widget) {
 /**
  * Store all the select dropdowns in an array on the object, for later use.
  */
-Drupal.date.EndDateHandler.prototype.initializeSelects = function () {
+Backdrop.date.EndDateHandler.prototype.initializeSelects = function () {
   var $starts = this.$start.find('select');
   var $end, $start, endId, i, id;
   this.selects = {};
@@ -64,7 +64,7 @@ Drupal.date.EndDateHandler.prototype.initializeSelects = function () {
 /**
  * Returns true if all dropdowns in the end date widget are blank.
  */
-Drupal.date.EndDateHandler.prototype.endDateIsBlank = function () {
+Backdrop.date.EndDateHandler.prototype.endDateIsBlank = function () {
   var id;
   for (id in this.selects) {
     if (this.selects.hasOwnProperty(id)) {
@@ -79,7 +79,7 @@ Drupal.date.EndDateHandler.prototype.endDateIsBlank = function () {
 /**
  * Returns true if the end date widget has the same value as the start date.
  */
-Drupal.date.EndDateHandler.prototype.endDateIsSame = function () {
+Backdrop.date.EndDateHandler.prototype.endDateIsSame = function () {
   var id;
   for (id in this.selects) {
     if (this.selects.hasOwnProperty(id)) {
@@ -94,7 +94,7 @@ Drupal.date.EndDateHandler.prototype.endDateIsSame = function () {
 /**
  * Add a click handler to each of the start date's select dropdowns.
  */
-Drupal.date.EndDateHandler.prototype.bindClickHandlers = function () {
+Backdrop.date.EndDateHandler.prototype.bindClickHandlers = function () {
   var id;
   for (id in this.selects) {
     if (this.selects.hasOwnProperty(id)) {
@@ -107,14 +107,14 @@ Drupal.date.EndDateHandler.prototype.bindClickHandlers = function () {
 /**
  * Click event handler for each of the start date's select dropdowns.
  */
-Drupal.date.EndDateHandler.prototype.startClickHandler = function (event) {
+Backdrop.date.EndDateHandler.prototype.startClickHandler = function (event) {
   this.syncEndDate();
 };
 
 /**
  * Focus event handler for each of the end date's select dropdowns.
  */
-Drupal.date.EndDateHandler.prototype.endFocusHandler = function (event) {
+Backdrop.date.EndDateHandler.prototype.endFocusHandler = function (event) {
   var id;
   for (id in this.selects) {
     if (this.selects.hasOwnProperty(id)) {
@@ -124,7 +124,7 @@ Drupal.date.EndDateHandler.prototype.endFocusHandler = function (event) {
   $(event.target).unbind('focus', this.endFocusHandler);
 };
 
-Drupal.date.EndDateHandler.prototype.syncEndDate = function () {
+Backdrop.date.EndDateHandler.prototype.syncEndDate = function () {
   var id;
   for (id in this.selects) {
     if (this.selects.hasOwnProperty(id)) {

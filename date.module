@@ -35,7 +35,7 @@ function date_get_entity_bundle($entity_type, $entity) {
  */
 function date_default_format($type) {
   // Example input formats must show all possible date parts, so add seconds.
-  $default_format = str_replace('i', 'i:s', variable_get('date_format_short', 'm/d/Y - H:i'));
+  $default_format = str_replace('i', 'i:s', config_get('date.settings','date_format_short', 'm/d/Y - H:i'));
   return $default_format;
 }
 
@@ -67,7 +67,7 @@ function date_input_date($field, $instance, $element, $input) {
  * Implements hook_theme().
  */
 function date_theme() {
-  $path = drupal_get_path('module', 'date');
+  $path = backdrop_get_path('module', 'date');
   module_load_include('theme', 'date', 'date');
 
   $base = array(
@@ -302,7 +302,7 @@ function date_formatter_process($formatter, $entity_type, $entity, $field, $inst
     'item' => $item,
     'display' => $display,
   );
-  drupal_alter('date_formatter_dates', $dates, $context);
+  backdrop_alter('date_formatter_dates', $dates, $context);
 
   $dates['format'] = $format;
   return $dates;
@@ -345,7 +345,7 @@ function _get_custom_date_format($date, $format) {
  */
 function date_granularity($field) {
   if (!is_array($field) || !is_array($field['settings']['granularity'])) {
-    $granularity = drupal_map_assoc(array('year', 'month', 'day'));
+    $granularity = backdrop_map_assoc(array('year', 'month', 'day'));
     $field['settings']['granularity'] = $granularity;
   }
   return array_values(array_filter($field['settings']['granularity']));
@@ -458,7 +458,7 @@ function date_formatter_format($formatter, $settings, $granularity = array(), $l
  * Checks for locale-based format first.
  */
 function date_format_type_format($format_type, $langcode = NULL) {
-  $static = &drupal_static(__FUNCTION__);
+  $static = &backdrop_static(__FUNCTION__);
   if (!isset($static[$langcode][$format_type])) {
     $format = system_date_format_locale($langcode, $format_type);
 
@@ -502,7 +502,7 @@ function date_format_type_format($format_type, $langcode = NULL) {
           break;
 
       }
-      $format = variable_get('date_format_' . $format_type, $default);
+      $format = config_get('date.settings','date_format_' . $format_type, $default);
     }
     $static[$langcode][$format_type] = $format;
   }
@@ -528,10 +528,10 @@ function date_prepare_entity($formatter, $entity_type, $entity, $field, $instanc
   // Otherwise removed values that should not be displayed.
   if (!empty($options['multiple_from']) || !empty($options['multiple_to']) || !empty($max_count)) {
     $format = date_type_format($field['type']);
-    include_once drupal_get_path('module', 'date_api') . '/date_api_sql.inc';
+    include_once backdrop_get_path('module', 'date_api') . '/date_api_sql.inc';
     $date_handler = new date_sql_handler($field);
-    $arg0 = !empty($options['multiple_from']) ? $date_handler->arg_replace($options['multiple_from']) : variable_get('date_min_year', 100) . '-01-01T00:00:00';
-    $arg1 = !empty($options['multiple_to']) ? $date_handler->arg_replace($options['multiple_to']) : variable_get('date_max_year', 4000) . '-12-31T23:59:59';
+    $arg0 = !empty($options['multiple_from']) ? $date_handler->arg_replace($options['multiple_from']) : config_get('date.settings','date_min_year', 100) . '-01-01T00:00:00';
+    $arg1 = !empty($options['multiple_to']) ? $date_handler->arg_replace($options['multiple_to']) : config_get('date.settings','date_max_year', 4000) . '-12-31T23:59:59';
     if (!empty($arg0) && !empty($arg1)) {
       $arg = $arg0 . '--' . $arg1;
     }
@@ -691,7 +691,7 @@ function date_entity_metadata_field_setter(&$entity, $name, $value, $langcode, $
   $entity->{$name}[$langcode] = $items;
   // Empty the static field language cache, so the field system picks up any
   // possible new languages.
-  drupal_static_reset('field_language');
+  backdrop_static_reset('field_language');
 }
 
 /**

@@ -110,7 +110,7 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
       // Legacy support for JSON containing a set of properties - deprecated
       // now that we have subfields.
       if (!empty($from) && $from{0} == '{') {
-        $properties = drupal_json_decode($from);
+        $properties = backdrop_json_decode($from);
         $from = $properties['from'];
         // Properties passed in with the date override any set via arguments.
         if (!empty($properties['to'])) {
@@ -175,7 +175,7 @@ class DateMigrateFieldHandler extends MigrateFieldHandler {
       // Handle repeats, coming in as RRULEs. Many field instances may be
       // created.
       if (function_exists('date_repeat_build_dates') && !empty($field_info['settings']['repeat']) && $rrule) {
-        include_once DRUPAL_ROOT . '/' . drupal_get_path('module', 'date_api') . '/date_api_ical.inc';
+        include_once BACKDROP_ROOT . '/' . backdrop_get_path('module', 'date_api') . '/date_api_ical.inc';
         $item = array(
           'value' => $from,
           'value2' => $to,

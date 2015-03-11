@@ -32,8 +32,8 @@
  * Implements hook_views_plugins().
  */
 function date_views_views_plugins() {
-  $path = drupal_get_path('module', 'date_views');
-  $views_path = drupal_get_path('module', 'views');
+  $path = backdrop_get_path('module', 'date_views');
+  $views_path = backdrop_get_path('module', 'views');
   module_load_include('inc', 'date_views', 'theme/theme');
 
   return array(
@@ -209,7 +209,7 @@ function date_views_querystring($view, $extra_params = array()) {
     $exclude[] = $view->date_info->pager_id;
   }
 
-  $query = drupal_get_query_parameters($query_params, $exclude);
+  $query = backdrop_get_query_parameters($query_params, $exclude);
   // To prevent an empty query string from adding a "?" on to the end of a URL,
   // we return NULL.
   return !empty($query) ? $query : NULL;

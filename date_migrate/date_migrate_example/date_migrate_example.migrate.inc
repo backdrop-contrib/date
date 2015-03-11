@@ -44,7 +44,7 @@ class DateExampleMigration extends XMLMigration {
     );
 
     // Our test data is in an XML file.
-    $xml_folder = drupal_get_path('module', 'date_migrate_example');
+    $xml_folder = backdrop_get_path('module', 'date_migrate_example');
     $items_url = $xml_folder . '/date_migrate_example.xml';
     $item_xpath = '/source_data/item';
     $item_id_xpath = 'id';

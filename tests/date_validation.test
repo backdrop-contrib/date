@@ -69,7 +69,7 @@ class DateValidationTestCase extends DateFieldBasic {
       $edit[$field_name . '[und][0][value][date]'] = '15/49/2011';
       $edit[$field_name . '[und][0][value][time]'] = '10:30';
     }
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $should_not_be = $edit['title'] . "has been created";
     $this->assertNoText($should_not_be, "Correctly blocked creation of node with invalid month and day for a $field_type field using the $widget_type widget.");
     $this->assertText('The month is invalid.', "Correctly blocked invalid month for a $field_type field using the $widget_type widget.");
@@ -90,7 +90,7 @@ class DateValidationTestCase extends DateFieldBasic {
       $edit[$field_name . '[und][0][value][date]'] = '12/10/11';
       $edit[$field_name . '[und][0][value][time]'] = '10:30';
     }
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $should_not_be = $edit['title'] . " has been created";
     $this->assertNoText($should_not_be, "Correctly blocked creation of node with invalid year for a $field_type field using the $widget_type widget.");
     $should_be = 'The year is invalid. Please check that entry includes four digits.';
@@ -111,7 +111,7 @@ class DateValidationTestCase extends DateFieldBasic {
       $edit[$field_name . '[und][0][value][date]'] = '12/10/2011';
       $edit[$field_name . '[und][0][value][time]'] = '29:95';
     }
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $should_not_be = $edit['title'] . " has been created";
     $this->assertNoText($should_not_be, "Correctly blocked creation of node with invalid time for a $field_type field using the $widget_type widget.");
     $should_be = 'The hour is invalid.';
@@ -143,7 +143,7 @@ class DateValidationTestCase extends DateFieldBasic {
       $edit[$field_name . '[und][0][value][date]'] = '12/10/2011';
       $edit[$field_name . '[und][0][value][time]'] = '';
     }
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $should_not_be = $edit['title'] . " has been created";
     $this->assertNoText($should_not_be, "Correctly blocked creation of node with missing time for a $field_type field using the $widget_type widget.");
     $this->assertText('invalid', "Marked form with missing time as invalid for a $field_type field using the $widget_type widget.");

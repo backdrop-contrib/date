@@ -1,4 +1,4 @@
-Drupal date_popup.module README.txt
+Backdrop date_popup.module README.txt
 ==============================================================================
 
 Javascript popup calendar and timeentry using the

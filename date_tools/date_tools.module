@@ -62,7 +62,7 @@ function date_tools_menu() {
     'description' => 'Easy creation of date content types and calendars. ',
     'type' => MENU_LOCAL_TASK,
     'weight' => 1,
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('date_tools_wizard_form'),
     'access arguments' => array('administer date tools'),
     'file' => 'date_tools.wizard.inc',
@@ -73,7 +73,7 @@ function date_tools_menu() {
   $items['admin/config/date/tools/change'] = array(
     'title'    => 'Change type',
     'access arguments'   => array('administer date tools'),
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('date_tools_change_type_form'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 3,

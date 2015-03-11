@@ -4,7 +4,7 @@
  * @file
  * Basic functions for Date tests.
  */
-abstract class DateFieldBasic extends DrupalWebTestCase {
+abstract class DateFieldBasic extends BackdropWebTestCase {
   protected $privileged_user;
 
   /**
@@ -15,12 +15,12 @@ abstract class DateFieldBasic extends DrupalWebTestCase {
     parent::setUp('field', 'field_ui', 'date_api', 'date', 'date_popup', 'date_tools');
 
     // Create and log in our privileged user.
-    $this->privileged_user = $this->drupalCreateUser(
+    $this->privileged_user = $this->backdropCreateUser(
       array('administer content types', 'administer nodes', 'bypass node access', 'administer date tools')
     );
-    $this->drupalLogin($this->privileged_user);
+    $this->backdropLogin($this->privileged_user);
 
-    variable_set('date_popup_timepicker', 'none');
+    config_set('date.settings','date_popup_timepicker', 'none');
 
     module_load_include('inc', 'node', 'content_types');
     module_load_include('inc', 'node', 'node.pages');
@@ -30,7 +30,7 @@ abstract class DateFieldBasic extends DrupalWebTestCase {
     $edit = array();
     $edit['name'] = 'Story';
     $edit['type'] = 'story';
-    $this->drupalPost('admin/structure/types/add', $edit, t('Save content type'));
+    $this->backdropPost('admin/structure/types/add', $edit, t('Save content type'));
     $this->assertText('The content type Story has been added.', 'Content type added.');
 
   }
@@ -146,8 +146,8 @@ abstract class DateFieldBasic extends DrupalWebTestCase {
     field_cache_clear(TRUE);
 
     // Look at how the field got configured.
-    $this->drupalGet("admin/structure/types/manage/$bundle/fields/$field_name");
-    $this->drupalGet("admin/structure/types/manage/$bundle/display");
+    $this->backdropGet("admin/structure/types/manage/$bundle/fields/$field_name");
+    $this->backdropGet("admin/structure/types/manage/$bundle/display");
 
   }
 
@@ -264,17 +264,17 @@ abstract class DateFieldBasic extends DrupalWebTestCase {
     field_cache_clear(TRUE);
 
     // Look at how the field got configured.
-    $this->drupalGet("admin/structure/types/manage/$bundle/fields/$field_name");
-    $this->drupalGet("admin/structure/types/manage/$bundle/display");
+    $this->backdropGet("admin/structure/types/manage/$bundle/fields/$field_name");
+    $this->backdropGet("admin/structure/types/manage/$bundle/display");
   }
 
   /**
    * @todo.
    */
   protected function deleteDateField($label, $bundle = 'story', $bundle_name = 'Story') {
-    $this->drupalGet("admin/structure/types/manage/$bundle/fields");
+    $this->backdropGet("admin/structure/types/manage/$bundle/fields");
     $this->clickLink('delete');
-    $this->drupalPost(NULL, NULL, t('Delete'));
+    $this->backdropPost(NULL, NULL, t('Delete'));
     $this->assertText("The field $label has been deleted from the $bundle_name content type.", 'Removed date field.');
   }
 
@@ -359,21 +359,21 @@ class DateFieldTestCase extends DateFieldBasic {
     //
     // For the short type, save an explicit format and assert that is the one
     // which is displayed.
-    variable_set('date_format_short', 'l, m/d/Y - H:i:s');
+    config_set('date.settings','date_format_short', 'l, m/d/Y - H:i:s');
     $instance = field_info_instance('node', $field_name, 'story');
     $instance['display']['default']['settings']['format_type'] = 'short';
     field_update_instance($instance);
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $this->assertText($edit['title'], "Node has been created");
     $should_be = $todate ? 'Thursday, 10/07/2010 - 10:30 to 11:30' : 'Thursday, 10/07/2010 - 10:30';
     $this->assertText($should_be, "Found the correct date for a $field_type field using the $widget_type widget displayed using the short date format.");
     // For the long format, do not save anything, and assert that the displayed
-    // date uses the expected default value of this format provided by Drupal
+    // date uses the expected default value of this format provided by Backdrop
     // core ('l, F j, Y - H:i').
     $instance = field_info_instance('node', $field_name, 'story');
     $instance['display']['default']['settings']['format_type'] = 'long';
     field_update_instance($instance);
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $this->assertText($edit['title'], "Node has been created");
     $should_be = $todate ? 'Thursday, October 7, 2010 - 10:30 to 11:30' : 'Thursday, October 7, 2010 - 10:30';
     $this->assertText($should_be, "Found the correct date for a $field_type field using the $widget_type widget displayed using the long date format.");
