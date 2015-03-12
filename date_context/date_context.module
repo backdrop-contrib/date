@@ -52,3 +52,14 @@ function date_context_context_registry() {
     ),
   );
 }
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_context_autoload_info()
+{
+    return array(
+        'date_context_date_condition' => 'plugins/date_context_condition.inc'
+    );
+}

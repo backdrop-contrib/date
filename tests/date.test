@@ -10,17 +10,6 @@ class DateUITestCase extends DateFieldBasic {
   /**
    * @todo.
    */
-  public static function getInfo() {
-    return array(
-      'name' => 'Field UI',
-      'description' => 'Test creation of various date fields and widgets using Field UI.',
-      'group' => 'Date',
-    );
-  }
-
-  /**
-   * @todo.
-   */
   public function setUp() {
     parent::setUp();
 

@@ -547,10 +547,10 @@ function date_content_migrate_instance_alter(&$instance_value, $field_value) {
 function date_old_formatter_get_settings($field_name, $type_name, $context) {
   $options = array();
   $value = 'date:' . $type_name . ':' . $context . ':' . $field_name;
-  $options['show_repeat_rule'] = config_get('date.settings','date.settings','_show_repeat_rule', 'show');
-  $options['multiple_number'] = config_get('date.settings','date.settings','_multiple_number', '');
-  $options['multiple_from'] = config_get('date.settings','date.settings','_multiple_from', '');
-  $options['multiple_to'] = config_get('date.settings','date.settings','_multiple_to', '');
-  $options['fromto'] = config_get('date.settings','date.settings','_fromto', 'both');
+  $options['show_repeat_rule'] = config_get('date.settings','_show_repeat_rule', 'show');
+  $options['multiple_number'] = config_get('date.settings','_multiple_number', '');
+  $options['multiple_from'] = config_get('date.settings','_multiple_from', '');
+  $options['multiple_to'] = config_get('date.settings','_multiple_to', '');
+  $options['fromto'] = config_get('date.settings','_fromto', 'both');
   return $options;
 }

@@ -2925,3 +2925,27 @@ function date_make_iso_valid($iso_string) {
   // Fall through, no changes required.
   return $iso_string;
 }
+
+
+/**
+ * Implements hook_config_info().
+ */
+function date_api_config_info() {
+    $prefixes['date_api.settings'] = array(
+        'label' => t('Date API settings'),
+        'group' => t('Configuration'),
+    );
+    return $prefixes;
+}
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_api_autoload_info()
+{
+    return array(
+        'DateObject' => 'date_api.module',
+        'class date_sql_handler' => 'date_api_sql.inc'
+    );
+}

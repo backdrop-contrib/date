@@ -95,3 +95,14 @@ function date_tools_page() {
 
   return $content;
 }
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_tools_autoload_info()
+{
+    return array(
+        'DateToolsTestCase' => 'tests/date_tools.test'
+    );
+}

@@ -469,3 +469,15 @@ function date_repeat_form_element_radios_process($element) {
 
   return $element;
 }
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_repeat_autoload_info()
+{
+    return array(
+        'DateRepeatTestCase' => 'tests/date_repeat.test',
+        'DateRepeatFormTestCase' => 'tests/date_repeat_form.test'
+    );
+}

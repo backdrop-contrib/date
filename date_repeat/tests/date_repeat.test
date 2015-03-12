@@ -6,13 +6,6 @@
  */
 
 class DateRepeatTestCase extends BackdropWebTestCase {
-  public static function getInfo() {
-    return array(
-      'name' => t('Date Repeat'),
-      'description' => t('Test Date Repeat functions to create arrays of dates from iCal rules.') ,
-      'group' => t('Date'),
-    );
-  }
 
   /**
    * Implements setUp().

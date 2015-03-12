@@ -1,0 +1,11 @@
+[DateRepeatTest]
+name = Date Repeat
+description = Test Date Repeat functions to create arrays of dates from iCal rules
+group = Date
+file = date_repeat.test
+
+[DateRepeatFormTest]
+name = Date Repeat Form
+description = Test Date Repeat form
+group = Date
+file = date_repeat_form.test

@@ -8,14 +8,6 @@
 class DateRepeatFormTestCase extends BackdropWebTestCase {
   protected $privileged_user;
 
-  public static function getInfo() {
-    return array(
-      'name' => t('Date Repeat Form'),
-      'description' => t('Test Date Repeat form.') ,
-      'group' => t('Date'),
-    );
-  }
-
   /**
    * Implements setUp().
    */

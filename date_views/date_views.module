@@ -540,3 +540,19 @@ function date_views_date_formatter_pre_view_alter(&$entity, &$variables) {
     }
   }
 }
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_views_autoload_info()
+{
+    return array(
+        'date_views_argument_handler' => 'includes/date_views_argument_handler.inc',
+        'date_views_argument_handler_simple' => 'includes/date_views_argument_handler_simple.inc',
+        'date_views_filter_handler' => 'includes/date_views_filter_handler.inc',
+        'date_views_filter_handler_simple' => 'includes/date_views_filter_handler_simple.inc',
+        'date_views_plugin_pager' => 'includes/date_views_plugin_pager.inc'
+    );
+}
+

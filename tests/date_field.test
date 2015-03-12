@@ -285,17 +285,6 @@ class DateFieldTestCase extends DateFieldBasic {
   /**
    * @todo.
    */
-  public static function getInfo() {
-    return array(
-      'name' => 'Date Field',
-      'description' => 'Test date field settings and Start/End date interaction.',
-      'group' => 'Date',
-    );
-  }
-
-  /**
-   * @todo.
-   */
   public function testField() {
     // Create a date fields with simple values.
     foreach (array('date', 'datestamp', 'datetime') as $field_type) {

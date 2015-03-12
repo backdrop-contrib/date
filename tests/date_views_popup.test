@@ -6,16 +6,6 @@
  */
 
 class DateViewsPopupTestCase extends DateFieldBasic {
-  /**
-   * Test info.
-   */
-  public static function getInfo() {
-    return array(
-      'name' => 'Date Views - Popup Test',
-      'description' => 'Tests date popup in Views',
-      'group' => 'Date',
-    );
-  }
 
   /**
    * Test setup actions.

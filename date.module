@@ -813,3 +813,35 @@ function date_field_widget_properties_alter(&$widget, $context) {
     }
   }
 }
+
+
+/**
+ * Implements hook_config_info().
+ */
+function date_config_info() {
+    $prefixes['date.settings'] = array(
+        'label' => t('Date settings'),
+        'group' => t('Configuration'),
+    );
+    return $prefixes;
+}
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_autoload_info()
+{
+    return array(
+        'DateMigrateFieldHandler' => 'date.migrate.inc',
+        'DateUITestCase' => 'tests/date.test',
+        'DateAPITestCase' => 'tests/date_api.test',
+        'DateFieldBasic' => 'tests/date_field.test',
+        'DateFieldTestCase' => 'tests/date_field.test',
+        'DateMigrateExampleUnitTest' => 'tests/date_migrate.test',
+        'DateTimezoneTestCase' => 'tests/date_timezone.test',
+        'DateValidationTestCase' => 'tests/date_validation.test',
+        'ViewsPagerSkippingTestCase' => 'tests/date_views_pager.test',
+        'DateViewsPopupTestCase' => 'tests/date_views_popup.test'
+    );
+}

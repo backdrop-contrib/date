@@ -11,17 +11,6 @@
 class DateMigrateExampleUnitTest extends BackdropWebTestCase {
 
   /**
-   * Provides information about this test.
-   */
-  public static function getInfo() {
-    return array(
-      'name' => 'Date Migration',
-      'description' => 'Test migration into date fields',
-      'group' => 'Date',
-    );
-  }
-
-  /**
    * Declars the module dependencies for the test.
    */
   function setUp() {
