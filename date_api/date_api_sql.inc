@@ -101,7 +101,7 @@ class date_sql_handler {
    * See if the db has timezone name support.
    */
   public function db_tz_support($reset = FALSE) {
-    $has_support = variable_get('date_db_tz_support', -1);
+    $has_support = config_get('date.settings','date_db_tz_support', -1);
     if ($has_support == -1 || $reset) {
       $has_support = FALSE;
       switch ($this->db_type) {
@@ -119,7 +119,7 @@ class date_sql_handler {
           }
           break;
       }
-      variable_set('date_db_tz_support', $has_support);
+      config_set('date.settings','date_db_tz_support', $has_support);
     }
     return $has_support;
   }
@@ -187,7 +187,7 @@ class date_sql_handler {
    *   The real table and field name, like 'tablename.fieldname' .
    * @param string $offset
    *   The name of a field that holds the timezone offset or an
-   *   offset value. If NULL, the normal Drupal timezone handling
+   *   offset value. If NULL, the normal Backdrop timezone handling
    *   will be used, if $offset = 0 no adjustment will be made.
    *
    * @return string
@@ -924,7 +924,7 @@ class date_sql_handler {
     }
     $formats = array('display', 'sql');
     // Start with the site long date format and add seconds to it.
-    $short = str_replace(':i', ':i:s', variable_get('date_format_short', 'l, F j, Y - H:i'));
+    $short = str_replace(':i', ':i:s', config_get('date.settings','date_format_short', 'l, F j, Y - H:i'));
     switch ($granularity) {
       case 'year':
         $formats['display'] = 'Y';

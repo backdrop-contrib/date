@@ -1,20 +1,20 @@
 (function ($) {
 
-Drupal.behaviors.dateYearRange = {};
+Backdrop.behaviors.dateYearRange = {};
 
-Drupal.behaviors.dateYearRange.attach = function (context, settings) {
+Backdrop.behaviors.dateYearRange.attach = function (context, settings) {
   var $textfield, $textfields, i;
 
   // Turn the years back and forward fieldsets into dropdowns.
   $textfields = $('input.select-list-with-custom-option', context).once('date-year-range');
   for (i = 0; i < $textfields.length; i++) {
     $textfield = $($textfields[i]);
-    new Drupal.dateYearRange.SelectListWithCustomOption($textfield);
+    new Backdrop.dateYearRange.SelectListWithCustomOption($textfield);
   }
 };
 
 
-Drupal.dateYearRange = {};
+Backdrop.dateYearRange = {};
 
 /**
  * Constructor for the SelectListWithCustomOption object.
@@ -23,7 +23,7 @@ Drupal.dateYearRange = {};
  * into dropdowns with an 'other' option that lets the user enter a custom
  * value.
  */
-Drupal.dateYearRange.SelectListWithCustomOption = function ($textfield) {
+Backdrop.dateYearRange.SelectListWithCustomOption = function ($textfield) {
   this.$textfield = $textfield;
   this.$description = $textfield.next('div.description');
   this.defaultValue = $textfield.val();
@@ -40,7 +40,7 @@ Drupal.dateYearRange.SelectListWithCustomOption = function ($textfield) {
  *   The original value of the textfield. Returned as an integer, if the type
  *   parameter was 'int'.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.getOriginal = function (type) {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.getOriginal = function (type) {
   var original;
   if (type === 'int') {
     original = parseInt(this.defaultValue, 10);
@@ -57,7 +57,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.getOriginal = function
 /**
  * Get the correct first value for the dropdown.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.getStartValue = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.getStartValue = function () {
   var direction = this.getDirection();
   var start;
   switch (direction) {
@@ -76,7 +76,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.getStartValue = functi
 /**
  * Get the correct last value for the dropdown.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.getEndValue = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.getEndValue = function () {
   var direction = this.getDirection();
   var end;
   var originalString = this.getOriginal();
@@ -103,7 +103,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.getEndValue = function
 /**
  * Create a dropdown select list with the correct options for this textfield.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.createDropdown = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.createDropdown = function () {
   var $dropdown = $('<select>').addClass('form-select date-year-range-select');
   var $option, i, value;
   var start = this.getStartValue();
@@ -124,11 +124,11 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.createDropdown = funct
         value = '+' + i;
       }
     }
-    $option = $('<option>' + Drupal.formatPlural(value, '@count year from now', '@count years from now') + '</option>').val(value);
+    $option = $('<option>' + Backdrop.formatPlural(value, '@count year from now', '@count years from now') + '</option>').val(value);
     $dropdown.append($option);
   }
   // Create an 'Other' option.
-  $option = $('<option class="custom-option">' + Drupal.t('Other') + '</option>').val('');
+  $option = $('<option class="custom-option">' + Backdrop.t('Other') + '</option>').val('');
   $dropdown.append($option);
 
   // When the user changes the selected option in the dropdown, perform
@@ -140,7 +140,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.createDropdown = funct
   return $dropdown;
 };
 
-Drupal.dateYearRange.SelectListWithCustomOption.prototype._setInitialDropdownValue = function ($dropdown) {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype._setInitialDropdownValue = function ($dropdown) {
   var textfieldValue = this.getOriginal();
   // Determine whether the original textfield value exists in the dropdown.
   var possible = $dropdown.find('option[value="' + textfieldValue + '"]');
@@ -160,7 +160,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype._setInitialDropdownVal
 /**
  * Determine whether this is the "years back" or "years forward" textfield.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.getDirection = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.getDirection = function () {
   if (this.direction) {
     return this.direction;
   }
@@ -178,7 +178,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.getDirection = functio
 /**
  * Change handler for the dropdown, to modify the textfield as appropriate.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.handleDropdownChange = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.handleDropdownChange = function () {
   // Since the dropdown changed, we need to make the content of the textfield
   // match the (new) selected option.
   this.syncTextfield();
@@ -196,7 +196,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.handleDropdownChange =
 /**
  * Display the textfield and its description.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.revealTextfield = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.revealTextfield = function () {
   this.$textfield.show();
   this.$description.show();
 };
@@ -204,7 +204,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.revealTextfield = func
 /**
  * Hide the textfield and its description.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.hideTextfield = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.hideTextfield = function () {
   this.$textfield.hide();
   this.$description.hide();
 };
@@ -215,7 +215,7 @@ Drupal.dateYearRange.SelectListWithCustomOption.prototype.hideTextfield = functi
  * FAPI doesn't know about the JS-only dropdown, so the textfield needs to
  * reflect the value of the dropdown.
  */
-Drupal.dateYearRange.SelectListWithCustomOption.prototype.syncTextfield = function () {
+Backdrop.dateYearRange.SelectListWithCustomOption.prototype.syncTextfield = function () {
   var value = this.$dropdown.val();
   this.$textfield.val(value);
 };

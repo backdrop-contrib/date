@@ -280,10 +280,10 @@ function theme_date_display_single($variables) {
   $show_remaining_days = isset($variables['show_remaining_days']) ? $variables['show_remaining_days'] : '';
 
   // Wrap the result with the attributes.
-  $output = '<span class="date-display-single"' . drupal_attributes($attributes) . '>' . $date . $timezone . '</span>';
+  $output = '<span class="date-display-single"' . backdrop_attributes($attributes) . '>' . $date . $timezone . '</span>';
 
   if (!empty($variables['add_microdata'])) {
-    $output .= '<meta' . drupal_attributes($variables['microdata']['value']['#attributes']) . '/>';
+    $output .= '<meta' . backdrop_attributes($variables['microdata']['value']['#attributes']) . '/>';
   }
 
   // Add remaining message and return.
@@ -338,14 +338,14 @@ function theme_date_display_range($variables) {
   $attributes_end = $variables['attributes_end'];
   $show_remaining_days = $variables['show_remaining_days'];
 
-  $start_date = '<span class="date-display-start"' . drupal_attributes($attributes_start) . '>' . $date1 . '</span>';
-  $end_date = '<span class="date-display-end"' . drupal_attributes($attributes_end) . '>' . $date2 . $timezone . '</span>';
+  $start_date = '<span class="date-display-start"' . backdrop_attributes($attributes_start) . '>' . $date1 . '</span>';
+  $end_date = '<span class="date-display-end"' . backdrop_attributes($attributes_end) . '>' . $date2 . $timezone . '</span>';
 
   // If microdata attributes for the start date property have been passed in,
   // add the microdata in meta tags.
   if (!empty($variables['add_microdata'])) {
-    $start_date .= '<meta' . drupal_attributes($variables['microdata']['value']['#attributes']) . '/>';
-    $end_date .= '<meta' . drupal_attributes($variables['microdata']['value2']['#attributes']) . '/>';
+    $start_date .= '<meta' . backdrop_attributes($variables['microdata']['value']['#attributes']) . '/>';
+    $end_date .= '<meta' . backdrop_attributes($variables['microdata']['value2']['#attributes']) . '/>';
   }
 
   // Wrap the result with the attributes.
@@ -381,7 +381,7 @@ function theme_date_display_interval($variables) {
   );
 
   if ($return = theme('date_time_ago', $time_ago_vars)) {
-    return '<span class="date-display-interval"' . drupal_attributes($attributes) . ">$return</span>";
+    return '<span class="date-display-interval"' . backdrop_attributes($attributes) . ">$return</span>";
   }
   else {
     return '';
@@ -419,22 +419,22 @@ function theme_date_text_parts($variables) {
   $rows = array();
   foreach (date_granularity_names() as $key => $part) {
     if ($element[$key]['#type'] == 'hidden') {
-      $rows[] = drupal_render($element[$key]);
+      $rows[] = backdrop_render($element[$key]);
     }
     else {
       $rows[] = array(
         $part,
-        drupal_render($element[$key][0]),
-        drupal_render($element[$key][1]),
+        backdrop_render($element[$key][0]),
+        backdrop_render($element[$key][1]),
       );
     }
   }
   if ($element['year']['#type'] == 'hidden') {
-    return implode($rows) . drupal_render_children($element);
+    return implode($rows) . backdrop_render_children($element);
   }
   else {
     $header = array(t('Date part'), t('Select list'), t('Text field'));
-    return theme('table', array('header' => $header, 'rows' => $rows)) . drupal_render_children($element);
+    return theme('table', array('header' => $header, 'rows' => $rows)) . backdrop_render_children($element);
   }
 }
 

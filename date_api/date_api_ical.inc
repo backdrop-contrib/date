@@ -91,11 +91,11 @@
  *   An array with all the elements from the ical.
  */
 function date_ical_import($filename) {
-  // Fetch the iCal data. If file is a URL, use drupal_http_request. fopen
+  // Fetch the iCal data. If file is a URL, use backdrop_http_request. fopen
   // isn't always configured to allow network connections.
   if (substr($filename, 0, 4) == 'http') {
     // Fetch the ical data from the specified network location.
-    $icaldatafetch = drupal_http_request($filename);
+    $icaldatafetch = backdrop_http_request($filename);
     // Check the return result.
     if ($icaldatafetch->error) {
       watchdog('date ical', 'HTTP Request Error importing %filename: @error', array('%filename' => $filename, '@error' => $icaldatafetch->error));
@@ -530,7 +530,7 @@ function date_ical_parse_duration(&$subgroup, $field = 'DURATION') {
   $items['minute'] = isset($duration[7]) ? str_replace('M', '', $duration[7]) : '';
   $items['second'] = isset($duration[8]) ? str_replace('S', '', $duration[8]) : '';
   $start_date = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['datetime'] : date_format(date_now(), DATE_FORMAT_ISO);
-  $timezone = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['tz'] : variable_get('date_default_timezone');
+  $timezone = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['tz'] : config_get('date.settings','date_default_timezone');
   if (empty($timezone)) {
     $timezone = 'UTC';
   }
@@ -637,7 +637,7 @@ function date_ical_date($ical_date, $to_tz = FALSE) {
  *   Escaped text
  */
 function date_ical_escape_text($text) {
-  $text = drupal_html_to_text($text);
+  $text = backdrop_html_to_text($text);
   $text = trim($text);
   // TODO Per #38130 the iCal specs don't want : and " escaped
   // but there was some reason for adding this in. Need to watch
@@ -734,7 +734,7 @@ function date_api_ical_build_rrule($form_values) {
     if (!is_object($form_values['UNTIL']['datetime'])) {
       // If this is a date without time, give it time.
       if (strlen($form_values['UNTIL']['datetime']) < 11) {
-        $granularity_options = drupal_map_assoc(array(
+        $granularity_options = backdrop_map_assoc(array(
           'year',
           'month',
           'day',
@@ -766,7 +766,7 @@ function date_api_ical_build_rrule($form_values) {
     $rrule .= ';WKST=' . $form_values['WKST'];
   }
   else {
-    $rrule .= ';WKST=' . date_repeat_dow2day(variable_get('date_first_day', 0));
+    $rrule .= ';WKST=' . date_repeat_dow2day(config_get('date.settings','date_first_day', 0));
   }
 
   // Exceptions dates go last, on their own line.

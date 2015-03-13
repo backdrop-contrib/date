@@ -59,7 +59,7 @@ function date_field_formatter_settings_form($field, $instance, $view_mode, $form
     'instance' => $instance,
     'view_mode' => $view_mode,
   );
-  drupal_alter('date_field_formatter_settings_form', $form, $form_state, $context);
+  backdrop_alter('date_field_formatter_settings_form', $form, $form_state, $context);
   return $form;
 }
 
@@ -84,7 +84,7 @@ function date_field_formatter_settings_summary($field, $instance, $view_mode) {
     'instance' => $instance,
     'view_mode' => $view_mode,
   );
-  drupal_alter('date_field_formatter_settings_summary', $summary, $context);
+  backdrop_alter('date_field_formatter_settings_summary', $summary, $context);
 
   return implode('<br />', $summary);
 }
@@ -147,7 +147,7 @@ function date_field_formatter_view($entity_type, $entity, $field, $instance, $la
   }
 
   // Give other modules a chance to prepare the entity before formatting it.
-  drupal_alter('date_formatter_pre_view', $entity, $variables);
+  backdrop_alter('date_formatter_pre_view', $entity, $variables);
 
   // See if we are only supposed to display a selected
   // item from multiple value date fields.
@@ -245,7 +245,7 @@ function date_field_info() {
   $settings = array(
     'settings' => array(
       'todate' => '',
-      'granularity' => drupal_map_assoc($granularity),
+      'granularity' => backdrop_map_assoc($granularity),
       'tz_handling' => 'site',
       'timezone_db' => 'UTC',
     ),
@@ -434,7 +434,7 @@ function date_field_insert($entity_type, $entity, $field, $instance, $langcode, 
     'instance' => $instance,
     'langcode' => $langcode,
   );
-  drupal_alter('date_field_insert', $items, $context);
+  backdrop_alter('date_field_insert', $items, $context);
 }
 
 /**
@@ -448,7 +448,7 @@ function date_field_update($entity_type, $entity, $field, $instance, $langcode, 
     'instance' => $instance,
     'langcode' => $langcode,
   );
-  drupal_alter('date_field_update', $items, $context);
+  backdrop_alter('date_field_update', $items, $context);
 }
 
 /**
@@ -547,10 +547,10 @@ function date_content_migrate_instance_alter(&$instance_value, $field_value) {
 function date_old_formatter_get_settings($field_name, $type_name, $context) {
   $options = array();
   $value = 'date:' . $type_name . ':' . $context . ':' . $field_name;
-  $options['show_repeat_rule'] = variable_get($value . '_show_repeat_rule', 'show');
-  $options['multiple_number'] = variable_get($value . '_multiple_number', '');
-  $options['multiple_from'] = variable_get($value . '_multiple_from', '');
-  $options['multiple_to'] = variable_get($value . '_multiple_to', '');
-  $options['fromto'] = variable_get($value . '_fromto', 'both');
+  $options['show_repeat_rule'] = config_get('date.settings','_show_repeat_rule', 'show');
+  $options['multiple_number'] = config_get('date.settings','_multiple_number', '');
+  $options['multiple_from'] = config_get('date.settings','_multiple_from', '');
+  $options['multiple_to'] = config_get('date.settings','_multiple_to', '');
+  $options['fromto'] = config_get('date.settings','_fromto', 'both');
   return $options;
 }

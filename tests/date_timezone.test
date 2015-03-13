@@ -87,7 +87,7 @@ class DateTimezoneTestCase extends DateFieldBasic {
    * cardinality
    */
   public function dateMultiValueForm($field_name, $field_type, $max_granularity, $tz_handling) {
-    variable_set('date_format_long', 'D, m/d/Y - H:i:s T');
+    config_set('date.settings','date_format_long', 'D, m/d/Y - H:i:s T');
 
     $edit = array();
     $should_be = array();
@@ -138,7 +138,7 @@ class DateTimezoneTestCase extends DateFieldBasic {
         break;
     }
 
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $this->assertText($edit['title'], "Node has been created");
 
     foreach ($should_be as $assertion) {
@@ -146,8 +146,8 @@ class DateTimezoneTestCase extends DateFieldBasic {
     }
 
     // Goto the edit page and save the node again.
-    $node = $this->drupalGetNodeByTitle($edit['title']);
-    $this->drupalGet('node/' . $node->nid . '/edit');
+    $node = $this->backdropGetNodeByTitle($edit['title']);
+    $this->backdropGet('node/' . $node->nid . '/edit');
 
     // Re-assert the proper date timezones.
     foreach ($timezones as $key => $timezone) {
@@ -159,7 +159,7 @@ class DateTimezoneTestCase extends DateFieldBasic {
    * @todo.
    */
   public function dateForm($field_name, $field_type, $max_granularity, $tz_handling) {
-    variable_set('date_format_long', 'D, m/d/Y - H:i:s');
+    config_set('date.settings','date_format_long', 'D, m/d/Y - H:i:s');
     $edit = array();
     $edit['title'] = $this->randomName(8);
     $edit[$field_name . '[und][0][show_todate]'] = '1';
@@ -195,7 +195,7 @@ class DateTimezoneTestCase extends DateFieldBasic {
         $should_be = 'Thu, 10/07/2010 - 10:30:30 to 11:30:30';
         break;
     }
-    $this->drupalPost('node/add/story', $edit, t('Save'));
+    $this->backdropPost('node/add/story', $edit, t('Save'));
     $this->assertText($edit['title'], "Node has been created");
     $this->assertText($should_be, "Found the correct date for a $field_type field using $max_granularity granularity with $tz_handling timezone handling.");
   }

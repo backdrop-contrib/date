@@ -55,10 +55,10 @@
     }
   }
 
-  Drupal.behaviors.date_popup = {
+  Backdrop.behaviors.date_popup = {
     attach: function (context) {
-      for (var id in Drupal.settings.datePopup) {
-        $('#'+ id).bind('focus', Drupal.settings.datePopup[id], makeFocusHandler);
+      for (var id in Backdrop.settings.datePopup) {
+        $('#'+ id).bind('focus', Backdrop.settings.datePopup[id], makeFocusHandler);
       }
     }
   };

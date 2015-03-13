@@ -6,16 +6,6 @@
  */
 
 class DateViewsPopupTestCase extends DateFieldBasic {
-  /**
-   * Test info.
-   */
-  public static function getInfo() {
-    return array(
-      'name' => 'Date Views - Popup Test',
-      'description' => 'Tests date popup in Views',
-      'group' => 'Date',
-    );
-  }
 
   /**
    * Test setup actions.
@@ -45,8 +35,8 @@ class DateViewsPopupTestCase extends DateFieldBasic {
     // Set required permissions.
     $permissions = array('administer views', 'administer site configuration');
     // Create admin user and login.
-    $admin_user = $this->drupalCreateUser($permissions);
-    $this->drupalLogin($admin_user);
+    $admin_user = $this->backdropCreateUser($permissions);
+    $this->backdropLogin($admin_user);
 
     // Create the view.
     $view = new view();
@@ -101,6 +91,6 @@ class DateViewsPopupTestCase extends DateFieldBasic {
    */
   public function testDatePopup() {
     // Go to view page.
-    $this->drupalGet('test-date-popup');
+    $this->backdropGet('test-date-popup');
   }
 }

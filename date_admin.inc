@@ -94,7 +94,7 @@ function date_interval_formatter_settings_form($field, $instance, $view_mode, $f
     '#title' => t('Interval'),
     '#description' => t("How many time units should be shown in the 'time ago' string."),
     '#type' => 'select',
-    '#options' => drupal_map_assoc(range(1, 6)),
+    '#options' => backdrop_map_assoc(range(1, 6)),
     '#default_value' => $settings['interval'],
     '#weight' => 0,
   );
@@ -265,7 +265,7 @@ function _date_field_instance_settings_form($field, $instance) {
     'field' => $field,
     'instance' => $instance,
   );
-  drupal_alter('date_field_instance_settings_form', $form, $context);
+  backdrop_alter('date_field_instance_settings_form', $form, $context);
 
   return $form;
 }
@@ -310,7 +310,7 @@ function _date_field_widget_settings_form($field, $instance) {
   else {
     // Example input formats must show all possible date parts, so add seconds.
     $formats = str_replace('i', 'i:s', array_keys(system_get_date_formats('short')));
-    $formats = drupal_map_assoc($formats);
+    $formats = backdrop_map_assoc($formats);
   }
   $now = date_example_date();
   foreach ($formats as $f) {
@@ -450,7 +450,7 @@ function _date_field_widget_settings_form($field, $instance) {
     'field' => $field,
     'instance' => $instance,
   );
-  drupal_alter('date_field_widget_settings_form', $form, $context);
+  backdrop_alter('date_field_widget_settings_form', $form, $context);
 
   return $form;
 }
@@ -547,7 +547,7 @@ function _date_field_settings_form($field, $instance, $has_data) {
     '#options' => date_timezone_handling_options(),
     '#description' => $description,
     '#attached' => array(
-      'js' => array(drupal_get_path('module', 'date') . '/date_admin.js'),
+      'js' => array(backdrop_get_path('module', 'date') . '/date_admin.js'),
     ),
   );
   // Force this value to hidden because we don't want to allow it to be changed
@@ -585,7 +585,7 @@ function _date_field_settings_form($field, $instance, $has_data) {
     'instance' => $instance,
     'has_data' => $has_data,
   );
-  drupal_alter('date_field_settings_form', $form, $context);
+  backdrop_alter('date_field_settings_form', $form, $context);
 
   return $form;
 }

@@ -349,7 +349,7 @@ function date_combo_element_process($element, &$form_state, $form) {
     case 'date_select':
       $element[$from_field]['#type'] = 'date_select';
       $element[$from_field]['#theme_wrappers'] = array('date_select');
-      $element['#attached']['js'][] = drupal_get_path('module', 'date') . '/date.js';
+      $element['#attached']['js'][] = backdrop_get_path('module', 'date') . '/date.js';
       $element[$from_field]['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
       break;
 
@@ -381,7 +381,7 @@ function date_combo_element_process($element, &$form_state, $form) {
     $element[$to_field]['#weight'] += .2;
     $element[$to_field]['#prefix'] = '';
     // Users with JS enabled will never see initially blank values for the end
-    // date (see Drupal.date.EndDateHandler()), so hide the message for them.
+    // date (see Backdrop.date.EndDateHandler()), so hide the message for them.
     $description .= '<span class="js-hide"> ' . t("Empty 'End date' values will use the 'Start date' values.") . '</span>';
     $element['#fieldset_description'] = $description;
     if ($field['settings']['todate'] == 'optional') {
@@ -427,7 +427,7 @@ function date_combo_element_process($element, &$form_state, $form) {
     'instance'  => $instance,
     'form'      => $form,
   );
-  drupal_alter('date_combo_process', $element, $form_state, $context);
+  backdrop_alter('date_combo_process', $element, $form_state, $context);
 
   return $element;
 }
@@ -470,16 +470,16 @@ function date_combo_validate($element, &$form_state) {
   if (!is_array($element['#field_parents'])) {
     $element['#field_parents'] = array();
   }
-  $form_values = drupal_array_get_nested_value($form_state['values'], $element['#field_parents']);
-  $form_input = drupal_array_get_nested_value($form_state['input'], $element['#field_parents']);
+  $form_values = backdrop_array_get_nested_value($form_state['values'], $element['#field_parents']);
+  $form_input = backdrop_array_get_nested_value($form_state['input'], $element['#field_parents']);
 
   // If the whole field is empty and that's OK, stop now.
   if (empty($form_input[$field_name]) && !$element['#required']) {
     return;
   }
 
-  $item = drupal_array_get_nested_value($form_state['values'], $element['#parents']);
-  $posted = drupal_array_get_nested_value($form_state['input'], $element['#parents']);
+  $item = backdrop_array_get_nested_value($form_state['values'], $element['#parents']);
+  $posted = backdrop_array_get_nested_value($form_state['input'], $element['#parents']);
 
   $field = field_widget_field($element, $form_state);
   $instance = field_widget_instance($element, $form_state);
@@ -490,7 +490,7 @@ function date_combo_validate($element, &$form_state) {
     'item' => $item,
   );
 
-  drupal_alter('date_combo_pre_validate', $element, $form_state, $context);
+  backdrop_alter('date_combo_pre_validate', $element, $form_state, $context);
 
   $from_field = 'value';
   $to_field = 'value2';
@@ -582,11 +582,11 @@ function date_combo_validate($element, &$form_state) {
       // Update the context for changes in the $item, and allow other modules to
       // alter the computed local dates.
       $context['item'] = $item;
-      // We can only pass two additional values to drupal_alter, so $element
+      // We can only pass two additional values to backdrop_alter, so $element
       // needs to be included in $context.
       $context['element'] = $element;
-      drupal_alter('date_combo_validate_date_start', $from_date, $form_state, $context);
-      drupal_alter('date_combo_validate_date_end', $to_date, $form_state, $context);
+      backdrop_alter('date_combo_validate_date_start', $from_date, $form_state, $context);
+      backdrop_alter('date_combo_validate_date_end', $to_date, $form_state, $context);
 
       $item[$offset_field] = date_offset_get($from_date);
 
@@ -644,7 +644,7 @@ function date_input_format($element, $field, $instance) {
   elseif (!empty($instance['widget']['settings']['input_format']) && $instance['widget']['settings']['input_format'] != 'site-wide') {
     return $instance['widget']['settings']['input_format'];
   }
-  return variable_get('date_format_short', 'm/d/Y - H:i');
+  return config_get('date.settings','date_format_short', 'm/d/Y - H:i');
 }
 
 
@@ -678,7 +678,7 @@ function date_empty_end_date(&$element, &$form_state, &$input) {
   $parents = $element['#parents'];
   $parent = array_pop($parents);
   if ($parent == 'value2') {
-    $parent_values = drupal_array_get_nested_value($form_state['values'], $parents);
+    $parent_values = backdrop_array_get_nested_value($form_state['values'], $parents);
     if (isset($parent_values['show_todate']) && $parent_values['show_todate'] != 1) {
       $input = array();
       form_set_value($element, NULL, $form_state);

@@ -9,11 +9,11 @@
  * Implements hook_menu().
  */
 function date_views_menu() {
-  // Used to import files from a local filesystem into Drupal.
+  // Used to import files from a local filesystem into Backdrop.
   $items['admin/config/regional/date-time/date-views'] = array(
     'title' => 'Date views',
     'description' => 'Configure settings for date views.',
-    'page callback' => 'drupal_get_form',
+    'page callback' => 'backdrop_get_form',
     'page arguments' => array('date_views_settings'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_LOCAL_TASK,
@@ -31,7 +31,7 @@ function date_views_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Date views month format with year'),
     '#size' => 10,
-    '#default_value' => variable_get('date_views_month_format_with_year', 'F Y'),
+    '#default_value' => config_get('date.settings','date_views_month_format_with_year', 'F Y'),
     '#description' => t('Date views month format with year, default value : F Y'),
   );
 
@@ -39,7 +39,7 @@ function date_views_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Date views month format without year'),
     '#size' => 10,
-    '#default_value' => variable_get('date_views_month_format_without_year', 'F'),
+    '#default_value' => config_get('date.settings','date_views_month_format_without_year', 'F'),
     '#description' => t('Date views month format without year, default value : F'),
   );
 
@@ -47,7 +47,7 @@ function date_views_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Date views day format with year'),
     '#size' => 10,
-    '#default_value' => variable_get('date_views_day_format_with_year', 'l, F j, Y'),
+    '#default_value' => config_get('date.settings','date_views_day_format_with_year', 'l, F j, Y'),
     '#description' => t('Date views day format with year, default value : l, F j, Y'),
   );
 
@@ -55,7 +55,7 @@ function date_views_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Date views day format without year'),
     '#size' => 10,
-    '#default_value' => variable_get('date_views_day_format_without_year', 'l, F j'),
+    '#default_value' => config_get('date.settings','date_views_day_format_without_year', 'l, F j'),
     '#description' => t('Date views day format without year, default value : l, F j'),
   );
 
@@ -63,7 +63,7 @@ function date_views_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Date views week format with year'),
     '#size' => 10,
-    '#default_value' => variable_get('date_views_week_format_with_year', 'F j, Y'),
+    '#default_value' => config_get('date.settings','date_views_week_format_with_year', 'F j, Y'),
     '#description' => t('Date views week format with year, default value : F j, Y'),
   );
 
@@ -71,7 +71,7 @@ function date_views_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Date views week format without year'),
     '#size' => 10,
-    '#default_value' => variable_get('date_views_week_format_without_year', 'F j'),
+    '#default_value' => config_get('date.settings','date_views_week_format_without_year', 'F j'),
     '#description' => t('Date views week format without year, default value : F j'),
   );
 
@@ -85,7 +85,7 @@ function date_views_settings($form, &$form_state) {
  * This one is used as the base to reduce errors when updating.
  */
 function date_views_theme() {
-  $path = drupal_get_path('module', 'date_views');
+  $path = backdrop_get_path('module', 'date_views');
   $base = array(
     'file' => 'theme.inc',
     'path' => "$path/theme",
@@ -127,7 +127,7 @@ function date_views_theme() {
 function date_views_views_api() {
   return array(
     'api' => 3,
-    'path' => drupal_get_path('module', 'date_views') . '/includes',
+    'path' => backdrop_get_path('module', 'date_views') . '/includes',
   );
 }
 
@@ -191,7 +191,7 @@ function date_views_date_views_extra_tables() {
  *   $entity_type = $table_data['table']['base']['entity type'];
  */
 function date_views_base_tables() {
-  $base_tables = &drupal_static(__FILE__, array());
+  $base_tables = &backdrop_static(__FILE__, array());
 
   if (empty($base_tables)) {
 
@@ -454,7 +454,7 @@ function date_views_form_views_ui_edit_form_alter(&$form, &$form_state, $form_id
   // (date_views_filter_handler_simple), but we have to add it here so that
   // it's already on the edit form the first time a Date filter is being added
   // to the View. See http://drupal.org/node/1239228#comment-4885288.
-  $form['#attached']['css'][] = drupal_get_path('module', 'date_views') . '/css/date_views.css';
+  $form['#attached']['css'][] = backdrop_get_path('module', 'date_views') . '/css/date_views.css';
 }
 
 /**
@@ -485,7 +485,7 @@ function date_views_select_validate(&$form, &$form_state) {
   }
   $granularity = (!empty($form['min']['#date_format'])) ? date_format_order($form['min']['#date_format']) : date_format_order($form['value']['#date_format']);
   $filled = array();
-  $value = drupal_array_get_nested_value($form_state['input'], $form['#parents']);
+  $value = backdrop_array_get_nested_value($form_state['input'], $form['#parents']);
   foreach ($granularity as $part) {
     if (isset($value['value']) && is_numeric($value['value'][$part])) {
       $filled[] = $part;
@@ -540,3 +540,33 @@ function date_views_date_formatter_pre_view_alter(&$entity, &$variables) {
     }
   }
 }
+
+
+/**
+ * Implements hook_config_info().
+ */
+function date_views_config_info() 
+{
+    $prefixes['date_views.settings'] = array(
+        'label' => t('Date Views settings'),
+        'group' => t('Configuration'),
+    );
+    return $prefixes;
+}
+
+
+
+/**
+ * Implements hook_autoload_info().
+ */
+function date_views_autoload_info()
+{
+    return array(
+        'date_views_argument_handler' => 'includes/date_views_argument_handler.inc',
+        'date_views_argument_handler_simple' => 'includes/date_views_argument_handler_simple.inc',
+        'date_views_filter_handler' => 'includes/date_views_filter_handler.inc',
+        'date_views_filter_handler_simple' => 'includes/date_views_filter_handler_simple.inc',
+        'date_views_plugin_pager' => 'includes/date_views_plugin_pager.inc'
+    );
+}
+
