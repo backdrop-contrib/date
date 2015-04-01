@@ -2730,7 +2730,9 @@ function date_format_type_options() {
   $format_types = system_get_date_types();
   if (!empty($format_types)) {
     foreach ($format_types as $type => $type_info) {
-      $options[$type] = $type_info['title'] . ' (' . date_format_date(date_example_date(), $type) . ')';
+	  if (isset($type_info['label'])){
+        $options[$type] = $type_info['label'] . ' (' . date_format_date(date_example_date(),'custom', $type_info['pattern']) . ')';
+	  }
     }
   }
   return $options;
