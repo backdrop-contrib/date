@@ -36,6 +36,6 @@ file = date_views_pager.test
 
 [DateViewsPopupTest]
 name = Date Views - Popup Test
-description' => 'Tests date popup in Views
+description = Tests date popup in Views
 group = Date
 file = date_views_popup.test
