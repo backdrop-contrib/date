@@ -18,18 +18,6 @@ function date_views_install() {
 }
 
 /**
- * Implements hook_uninstall().
- */
-function date_views_uninstall() {
-  config_del('date_views_month_format_with_year');
-  config_del('date_views_month_format_without_year');
-  config_del('date_views_day_format_with_year');
-  config_del('date_views_day_format_without_year');
-  config_del('date_views_week_format_with_year');
-  config_del('date_views_week_format_without_year');
-}
-
-/**
  * Move date_views settings from variables to config.
  */
 function date_views_update_1000() {

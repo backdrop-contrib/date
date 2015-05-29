@@ -420,12 +420,4 @@ class DateAPITestCase extends BackdropWebTestCase {
     $this->assertEqual($expected, $value, "The date with added granularity should be $expected, found $value.");
   }
 
-  /**
-   * @todo.
-   */
-  public function tearDown() {
-    config_del('date_first_day');
-    config_del('date_api_use_iso8601');
-    parent::tearDown();
-  }
 }
