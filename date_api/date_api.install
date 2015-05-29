@@ -89,17 +89,6 @@ function date_api_enable() {
  */
 function date_api_uninstall() {
   cache_clear_all('date_timezone_identifiers_list', 'cache');
-  $variables = array(
-    'date_api_version',
-    'date_min_year',
-    'date_max_year',
-    'date_php_min_year',
-    'date_db_tz_support',
-    'date_api_use_iso8601',
-  );
-  foreach ($variables as $variable) {
-    config_del($variable);
-  }
 
   if (db_table_exists('views_display')) {
     $displays = array(
