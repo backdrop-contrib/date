@@ -4,5 +4,6 @@ package = Date/Time
 dependencies[] = date_api
 dependencies[] = views
 backdrop = 1.x
+type = module
 php = 5.2
 
