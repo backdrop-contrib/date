@@ -309,8 +309,9 @@ function _date_field_widget_settings_form($field, $instance) {
   }
   else {
     // Example input formats must show all possible date parts, so add seconds.
-    $formats = str_replace('i', 'i:s', array_keys(system_get_date_formats('short')));
-    $formats = backdrop_map_assoc($formats);
+    $formats = str_replace('i', 'i:s', system_get_date_formats('short')['pattern']);
+    //for Backdrop just show the one format
+    //$formats = backdrop_map_assoc($formats);
   }
   $now = date_example_date();
   foreach ($formats as $f) {

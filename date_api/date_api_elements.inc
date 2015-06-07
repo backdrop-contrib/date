@@ -68,7 +68,7 @@ function _date_api_element_info() {
     '#input' => TRUE, '#tree' => TRUE,
     '#date_timezone' => date_default_timezone(),
     '#date_flexible' => 0,
-    '#date_format' => config_get('date.settings','date_format_short', 'm/d/Y - H:i'),
+    '#date_format' => system_date_format_load('short'),
     '#date_text_parts' => array(),
     '#date_increment' => 1,
     '#date_year_range' => '-3:+3',
@@ -326,9 +326,9 @@ function date_text_element_process($element, &$form_state, $form) {
   $now = date_example_date();
   $element['date']['#title'] = t('Date');
   $element['date']['#title_display'] = 'invisible';
-  $element['date']['#description'] = ' ' . t('Format: @date', array(
+  $element['date']['#description'] = ' ' . t('Format example: @date', array(
     '@date' => date_format_date(date_example_date(), 'custom', $element['#date_format']
-  )));
+  ).', using format code '.$element['#date_format']));
   $element['date']['#ajax'] = !empty($element['#ajax']) ? $element['#ajax'] : FALSE;
 
   // Make changes if instance is set to be rendered as a regular field.

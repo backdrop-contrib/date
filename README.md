@@ -11,7 +11,9 @@ date_all_day;  date_api;  date_popup (but without the dropdown timepicker option
 The date_context module is not included because it requires the Context module.
 
 <h2>Status</h2>
-This port to Backdrop is ready for installation and testing
+This port to Backdrop is ready for installation and testing.
+7th June - Main module and Date API module have been revised and basic functions work. Others to follow.
+
 
 <h2>Help & Documentation</h2>
 

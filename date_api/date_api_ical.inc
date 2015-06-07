@@ -530,7 +530,7 @@ function date_ical_parse_duration(&$subgroup, $field = 'DURATION') {
   $items['minute'] = isset($duration[7]) ? str_replace('M', '', $duration[7]) : '';
   $items['second'] = isset($duration[8]) ? str_replace('S', '', $duration[8]) : '';
   $start_date = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['datetime'] : date_format(date_now(), DATE_FORMAT_ISO);
-  $timezone = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['tz'] : config_get('date.settings','date_default_timezone');
+  $timezone = array_key_exists('DTSTART', $subgroup) ? $subgroup['DTSTART']['tz'] : system_date_format_load('default_timezone');
   if (empty($timezone)) {
     $timezone = 'UTC';
   }
@@ -766,7 +766,7 @@ function date_api_ical_build_rrule($form_values) {
     $rrule .= ';WKST=' . $form_values['WKST'];
   }
   else {
-    $rrule .= ';WKST=' . date_repeat_dow2day(config_get('date.settings','date_first_day', 0));
+    $rrule .= ';WKST=' . date_repeat_dow2day(system_date_format_load('first_day'));
   }
 
   // Exceptions dates go last, on their own line.

@@ -343,6 +343,8 @@ function date_combo_element_process($element, &$form_state, $form) {
   // or a Date Popup element type.
   $element[$from_field]['#attributes'] = array('class' => array('date-clear'));
   $element[$from_field]['#wrapper_attributes'] = array('class' => array());
+  // the following line is added for Backdrop
+  $element[$from_field]['#wrapper_attributes']['class'][] = array();
   $element[$from_field]['#wrapper_attributes']['class'][] = 'date-no-float';
 
   switch ($instance['widget']['type']) {
@@ -644,7 +646,7 @@ function date_input_format($element, $field, $instance) {
   elseif (!empty($instance['widget']['settings']['input_format']) && $instance['widget']['settings']['input_format'] != 'site-wide') {
     return $instance['widget']['settings']['input_format'];
   }
-  return config_get('date.settings','date_format_short', 'm/d/Y - H:i');
+  return system_date_format_load('short')['pattern'];
 }
 
 
