@@ -304,21 +304,17 @@ function _date_field_widget_settings_form($field, $instance) {
   );
 
   $options = array();
-  if ($widget['type'] == 'date_popup' && module_exists('date_popup')) {
-    $formats = date_popup_formats();
-  }
-  else {
-    $formats = system_get_date_formats();
-	  $formats2 = array();
-	  foreach ($formats as $entry) {
-	    // Example input formats must show all possible date parts, so add seconds
-	    // if not already included with minutes
-	    if (strpos($entry['pattern'],'i:s')){
-	      $formats2[$entry['name']] = $entry['pattern'];
-	    }else{
-	      $formats2[$entry['name']] = str_replace('i', 'i:s', $entry['pattern']);
-      }
-	  }
+  $formats = system_get_date_formats();
+  $formats2 = array();
+  foreach ($formats as $entry) {
+    // Example input formats must show all possible date parts (why?, 
+    // so add seconds if not already included with minutes
+    if (strpos($entry['pattern'],'i:s')){
+      $formats2[$entry['name']] = $entry['pattern'];
+    }
+    else{
+      $formats2[$entry['name']] = str_replace('i', 'i:s', $entry['pattern']);
+    }
   }
 
   $now = date_now();
