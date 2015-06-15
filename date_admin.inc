@@ -308,14 +308,22 @@ function _date_field_widget_settings_form($field, $instance) {
     $formats = date_popup_formats();
   }
   else {
-    // Example input formats must show all possible date parts, so add seconds.
-    //$formats = str_replace('i', 'i:s', system_get_date_formats('short')['pattern']);
     $formats = system_get_date_formats();
+	  $formats2 = array();
+	  foreach ($formats as $entry) {
+	    // Example input formats must show all possible date parts, so add seconds
+	    // if not already included with minutes
+	    if (strpos($entry['pattern'],'i:s')){
+	      $formats2[$entry['name']] = $entry['pattern'];
+	    }else{
+	      $formats2[$entry['name']] = str_replace('i', 'i:s', $entry['pattern']);
+      }
+	  }
   }
-  $now = date_example_date();
-  foreach ($formats as $f) {
-    $f = $f['pattern'];
-    $options[$f] = date_format_date($now, 'custom', $f);
+
+  $now = date_now();
+  foreach ($formats2 as $f) {
+    $options[$f] = date_format_date($now, 'custom', $f).' - - - [ '.$f.' ]';
   }
   $form['input_format'] = array(
     '#type' => 'select',
