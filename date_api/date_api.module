@@ -1735,6 +1735,9 @@ function date_format_date($date, $type = 'medium', $format = '', $langcode = NUL
   if ($type != 'custom' && empty($format)) {
     $format = system_date_format_load('medium')['pattern'];
   }
+  if ($type == 'custom') {
+    if(is_array($format)){$format = $format['pattern'];}
+	}
   $format = date_limit_format($format, $date->granularity);
   $max = strlen($format);
   $datestring = '';

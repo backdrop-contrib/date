@@ -342,9 +342,7 @@ function date_combo_element_process($element, &$form_state, $form) {
   // Give this element the right type, using a Date API
   // or a Date Popup element type.
   $element[$from_field]['#attributes'] = array('class' => array('date-clear'));
-  $element[$from_field]['#wrapper_attributes'] = array('class' => array());
-  // the following line is added for Backdrop
-  $element[$from_field]['#wrapper_attributes']['class'][] = array();
+  $element[$from_field]['#wrapper_attributes']['class'] = array();
   $element[$from_field]['#wrapper_attributes']['class'][] = 'date-no-float';
 
   switch ($instance['widget']['type']) {
