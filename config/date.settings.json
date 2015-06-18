@@ -1,16 +1,11 @@
 {
-  "config_name": "date.settings",
+  "_config_name": "date.settings",
   "show_repeat_rule": "show",
   "multiple_number": "",
   "multiple_from": "",
   "multiple_to": "",
   "fromto": "",
-  "date_format_short": "m/d/Y - H:i",
-  "date_format_medium": "D, m/d/Y - H:i",
   "install_task": "",
-  "date_default_timezone": " ",
-  "configurable_timezones": 1,
-  "date_first_day": 0,
   "date_popup_timepicker": " ",
   "teaser_length": 600
 }
