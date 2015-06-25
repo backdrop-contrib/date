@@ -13,7 +13,7 @@ class DateViewsPopupTestCase extends DateFieldBasic {
   public function setUp() {
     parent::setUp();
     // Load the 'date_popup', 'date_views', 'views', 'views_ui', 'ctools' modules.
-    $modules = array('date_popup', 'date_views', 'views', 'views_ui', 'ctools');
+    $modules = array('date_popup', 'date_views', 'views', 'views_ui');
     $success = module_enable($modules, TRUE);
     $this->assertTrue($success, t('Enabled modules: %modules', array('%modules' => implode(', ', $modules))));
 
