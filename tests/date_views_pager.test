@@ -5,14 +5,14 @@
  * Views date pager skipping test.
  */
 
-class ViewsPagerSkippingTestCase extends BackdropWebTestCase {
+class DateViewsPagerSkippingTestCase extends BackdropWebTestCase {
 
   /**
    * Test setup actions.
    */
   public function setUp() {
-    // Load the 'date_views', 'views', 'views_ui', 'ctools' modules.
-    parent::setUp('date_views', 'views', 'views_ui', 'ctools');
+    // Load the 'date_views', 'views', 'views_ui' modules.
+    parent::setUp('date_views', 'views', 'views_ui');
     // Set required permissions.
     $permissions = array('administer views', 'administer site configuration');
     // Create admin user and login.
