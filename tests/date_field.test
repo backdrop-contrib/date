@@ -273,7 +273,7 @@ abstract class DateFieldBasic extends BackdropWebTestCase {
    */
   protected function deleteDateField($label, $bundle = 'story', $bundle_name = 'Story') {
     $this->backdropGet("admin/structure/types/manage/$bundle/fields");
-    $this->clickLink('delete');
+    $this->clickLink('Delete');
     $this->backdropPost(NULL, NULL, t('Delete'));
     $this->assertText("The field $label has been deleted from the $bundle_name content type.", 'Removed date field.');
   }
@@ -348,7 +348,9 @@ class DateFieldTestCase extends DateFieldBasic {
     //
     // For the short type, save an explicit format and assert that is the one
     // which is displayed.
-    config_set('date.settings','date_format_short', 'l, m/d/Y - H:i:s');
+    $format = system_date_format_load('short');
+    $format['pattern'] = 'l, m/d/Y - H:i:s';
+    system_date_format_save($format);
     $instance = field_info_instance('node', $field_name, 'story');
     $instance['display']['default']['settings']['format_type'] = 'short';
     field_update_instance($instance);
