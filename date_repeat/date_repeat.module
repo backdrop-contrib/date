@@ -137,7 +137,7 @@ function date_repeat_dow_day_untranslated() {
 function date_repeat_dow_day_options_ordered($weekdays) {
   $day_keys = array_keys($weekdays);
   $day_values = array_values($weekdays);
-  for ($i = 1; $i <= config_get('date.settings','date_first_day', 0); $i++) {
+  for ($i = 1; $i <= system_date_format_load('first_day'); $i++) {
     $last_key = array_shift($day_keys);
     array_push($day_keys, $last_key);
     $last_value = array_shift($day_values);
