@@ -1,5 +1,5 @@
-[DateTest]
-name = Field UI
+[DateUITestCase]
+name = Date Field UI
 description = Test creation of various date fields and widgets using Field UI
 group = Date
 file = date.test
