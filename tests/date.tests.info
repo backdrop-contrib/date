@@ -4,7 +4,7 @@ description = Test creation of various date fields and widgets using Field UI
 group = Date
 file = date.test
 
-[DateFieldTest]
+[DateFieldTestCase]
 name = Date Field
 description = Test date field settings and Start/End date interaction
 group = Date
@@ -16,25 +16,25 @@ description = Test migration into date fields
 group = Date
 file = date_migrate.test
 
-[DateTimezoneTest]
-name = Timezone & Granularity
+[DateTimezoneTestCase]
+name = Date Timezone & Granularity
 description = Test combinations of date field timezone handling and granularity
 group = Date
 file = date_timezone.test
 
-[DateValidationTest]
+[DateValidationTestCase]
 name = Date Validation
 description = Test date validation
 group = Date
 file = date_validation.test
 
-[DateViewsPagerSkippingTest]
+[DateViewsPagerSkippingTestCase]
 name = Date views pager skipping test
 description = Views date pager, option to skip empty pages test
 group = Date
 file = date_views_pager.test
 
-[DateViewsPopupTest]
+[DateViewsPopupTestCase]
 name = Date Views - Popup Test
 description = Tests date popup in Views
 group = Date
