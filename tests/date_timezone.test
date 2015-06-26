@@ -8,19 +8,8 @@ class DateTimezoneTestCase extends DateFieldBasic {
   /**
    * @todo.
    */
-  public static function getInfo() {
-    return array(
-      'name' => 'Timezone & Granularity',
-      'description' => 'Test combinations of date field timezone handling and granularity.',
-      'group' => 'Date',
-    );
-  }
-
-  /**
-   * @todo.
-   */
   public function testTimezone() {
-    // Create a date fields with combinations of various timezone handling and
+    // Create date fields with combinations of various timezone handling and
     // granularity.
     foreach (array('date', 'datestamp', 'datetime') as $field_type) {
       foreach (array('site', 'none', 'date', 'user', 'utc') as $tz_handling) {
@@ -87,8 +76,9 @@ class DateTimezoneTestCase extends DateFieldBasic {
    * cardinality
    */
   public function dateMultiValueForm($field_name, $field_type, $max_granularity, $tz_handling) {
-    config_set('date.settings','date_format_long', 'D, m/d/Y - H:i:s T');
-
+    $format = system_date_format_load('long');
+    $format['pattern'] = 'D, m/d/Y - H:i:s T';
+    system_date_format_save($format);
     $edit = array();
     $should_be = array();
     $edit['title'] = $this->randomName(8);
@@ -159,7 +149,9 @@ class DateTimezoneTestCase extends DateFieldBasic {
    * @todo.
    */
   public function dateForm($field_name, $field_type, $max_granularity, $tz_handling) {
-    config_set('date.settings','date_format_long', 'D, m/d/Y - H:i:s');
+    $format = system_date_format_load('long');
+    $format['pattern'] = 'D, m/d/Y - H:i:s';
+    system_date_format_save($format);
     $edit = array();
     $edit['title'] = $this->randomName(8);
     $edit[$field_name . '[und][0][show_todate]'] = '1';
