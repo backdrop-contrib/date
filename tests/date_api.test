@@ -6,16 +6,6 @@
  */
 
 class DateAPITestCase extends BackdropWebTestCase {
-  /**
-   * @todo.
-   */
-  public static function getInfo() {
-    return array(
-      'name' => t('Date API'),
-      'description' => t('Test Date API functions.') ,
-      'group' => t('Date'),
-    );
-  }
 
   /**
    * @todo.
@@ -23,8 +13,8 @@ class DateAPITestCase extends BackdropWebTestCase {
   public function setUp() {
     // Load the date_api module.
     parent::setUp('date_api');
-    config_set('date.settings','date_api_use_iso8601', FALSE);
-    config_set('date.settings','date_first_day', 1);
+    config_set('date_api.settings','date_api_use_iso8601', FALSE);
+    config_set('system.date','first_day', 1);
   }
 
   /**
@@ -80,11 +70,11 @@ class DateAPITestCase extends BackdropWebTestCase {
 
     // Test the order of the weeks days for a calendar that starts on Monday and
     // one that starts on Sunday.
-    config_set('date.settings','date_first_day', 1);
+    config_set('system.date','first_day', 1);
     $expected = array(0 => t('Mon'), 1 => t('Tue'), 2 => t('Wed'), 3 => t('Thu'), 4 => t('Fri'), 5 => t('Sat'), 6 => t('Sun'));
     $days = date_week_days_ordered(date_week_days_abbr(1));
     $this->assertEqual($expected, $days, 'Test that date_week_days_ordered() array starts on Monday when the site first day is on Monday.');
-    config_set('date.settings','date_first_day', 0);
+    config_set('system.date','first_day', 0);
     $expected = array(0 => t('Sun'), 1 => t('Mon'), 2 => t('Tue'), 3 => t('Wed'), 4 => t('Thu'), 5 => t('Fri'), 6 => t('Sat'));
     $days = date_week_days_ordered(date_week_days_abbr(1));
     $this->assertEqual($expected, $days, 'Test that date_week_days_ordered() array starts on Sunday when the site first day is on Sunday.');
@@ -130,8 +120,8 @@ class DateAPITestCase extends BackdropWebTestCase {
     $this->assertEqual($expected, $value, "Test date_day_of_week_name(2009-03-01): should be $expected, found $value.");
 
     // Test week range with calendar weeks.
-    config_set('date.settings','date_first_day', 0);
-    config_set('date.settings','date_api_use_iso8601', FALSE);
+    config_set('system.date','first_day', 1);
+    config_set('date_api.settings','date_api_use_iso8601', FALSE);
     $expected = '2008-01-27 to 2008-02-03';
     $result = date_week_range(5, 2008);
     $value = $result[0]->format(DATE_FORMAT_DATE) . ' to ' . $result[1]->format(DATE_FORMAT_DATE);
@@ -142,8 +132,8 @@ class DateAPITestCase extends BackdropWebTestCase {
     $this->assertEqual($expected, $value, "Test calendar date_week_range(5, 2009): should be $expected, found $value.");
 
     // And now with ISO weeks.
-    config_set('date.settings','date_first_day', 1);
-    config_set('date.settings','date_api_use_iso8601', TRUE);
+    config_set('system.date','first_day', 1);
+    config_set('date_api.settings','date_api_use_iso8601', TRUE);
     $expected = '2008-01-28 to 2008-02-04';
     $result = date_week_range(5, 2008);
     $value = $result[0]->format(DATE_FORMAT_DATE) . ' to ' . $result[1]->format(DATE_FORMAT_DATE);
@@ -152,10 +142,12 @@ class DateAPITestCase extends BackdropWebTestCase {
     $result = date_week_range(5, 2009);
     $value = $result[0]->format(DATE_FORMAT_DATE) . ' to ' . $result[1]->format(DATE_FORMAT_DATE);
     $this->assertEqual($expected, $value, "Test ISO date_week_range(5, 2009): should be $expected, found $value.");
-    config_set('date.settings','date_api_use_iso8601', FALSE);
+    config_set('date_api.settings','date_api_use_iso8601', FALSE);
 
     // Find calendar week for a date.
-    config_set('date.settings','date_first_day', 0);
+
+
+
     $expected = '09';
     $value = date_week('2008-03-01');
     $this->assertEqual($expected, $value, "Test date_week(2008-03-01): should be $expected, found $value.");
@@ -418,14 +410,5 @@ class DateAPITestCase extends BackdropWebTestCase {
     $expected = '2005-06-01 10:30:45';
 
     $this->assertEqual($expected, $value, "The date with added granularity should be $expected, found $value.");
-  }
-
-  /**
-   * @todo.
-   */
-  public function tearDown() {
-    config_del('date_first_day');
-    config_del('date_api_use_iso8601');
-    parent::tearDown();
   }
 }

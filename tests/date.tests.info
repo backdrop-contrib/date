@@ -39,3 +39,10 @@ name = Date Views - Popup Test
 description = Tests date popup in Views
 group = Date
 file = date_views_popup.test
+
+[DateAPITestCase]
+name = Date API tests
+description = Test Date API functions
+group = Date
+file = date_api.test
+
