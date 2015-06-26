@@ -13,7 +13,9 @@ class DateUITestCase extends DateFieldBasic {
   public function setUp() {
     parent::setUp();
 
-    config_set('date.settings','date_format_long', 'D, m/d/Y - H:i');
+    $format = system_date_format_load('long');
+    $format['pattern'] = 'D, m/d/Y - H:i';
+    system_date_format_save($format);
   }
 
   /**
