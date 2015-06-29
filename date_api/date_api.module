@@ -2729,16 +2729,16 @@ function date_api_form_system_settings_validate(&$form, &$form_state) {
  * Creates an array of date format types for use as an options list.
  */
 function date_format_type_options(){
-    $options = array();
-    $format_types = system_get_date_formats();
-    if (!empty($format_types)) {
-        foreach ($format_types as $type => $type_info) {
-            if (isset($type_info['label'])) {
-                $options[$type] = $type_info['label'] . ' (' . date_format_date(date_example_date(), $type) . ')';
-            }
-        }
-        return $options;
+  $options = array();
+  $format_types = system_get_date_formats();
+  if (!empty($format_types)) {
+    foreach ($format_types as $type => $type_info) {
+      if (isset($type_info['label'])) {
+        $options[$type] = $type_info['label'] . ' (' . date_format_date(date_example_date(), $type) . ')';
+      }
     }
+    return $options;
+  }
 }
 /**
 * Creates an example date.
@@ -2954,6 +2954,6 @@ function date_api_autoload_info()
 {
   return array(
     'DateObject' => 'date_api.module',
-    'class date_sql_handler' => 'date_api_sql.inc'
+    'class date_sql_handler' => 'date_api_sql.inc',
   );
 }
