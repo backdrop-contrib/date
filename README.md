@@ -1,37 +1,56 @@
-<h1>About Date for Backdrop</h1>
--------------------------
+Date
+====
 
-This module is now obsolete and should not now be used. It was previously replaced by a version 'Date Basic' with reduced scope, and not all porting issues were dealt with in this version of 'Date' which is an attempt at porting  the Drupal contributed module 'Date'which provides both a flexible date/time field type Date field and a Date API that other modules can use. 
+**Important note**: Date module was moved into Backdrop core in version 1.2.0. 
+Use of this module is no longer necessary and no further changes will be made 
+here. If you would like to report a bug or feature request against Date module, 
+file an issue in the main Backdrop CMS core repository at https://github.com/backdrop/backdrop-issues.
 
-The reduced functionality of Date Basic has now been included in core in Backdrop v1.2 and remaining functions are being made available in contributed modules date_all_day, date_tools and date_repeat. Please see these modules for more details
-
-The date_context module is not included because it requires the Context module.
-
-<h2>Status</h2>
-This port to Backdrop is obsolete.
+Provides both a flexible date/time field type Date field and a Date API that other modules can use. 
 
 
-<h2>Help & Documentation</h2>
+Date Sub-modules
+-----------------
 
-Information for developers is available in readme.txt
+Date functionality not included in core is available in contributed modules:
+
+* [Date Repeat](https://github.com/backdrop-contrib/date_repeat) 
+* [date_all_day](https://github.com/backdrop-contrib/date_all_day)
+* [date_tools](https://github.com/backdrop-contrib/date_tools)
+
+Please see these modules for more details.
 
 
+Documentation
+-------------
 
-<h2>License</h2>
+Information for developers is available in README.txt
 
-This project is GPL v2 software. See the LICENSE.txt file in this directory for complete text.
     
-    
-<h2>Current Maintainers</h2>
+Current Maintainers
+-------------------
 
-<h3>For Drupal:</h3>
-
-vijaycs85 - Vijayachandran Mani;  cafuego - Peter Lieverdink;  KarenS - Karen Stevenson;  arlinsandbulte - Arlin Sandbulte;  developer-x
+- none
 
 
-<h3>Port to Backdrop:</h3>
-Graham Oliver github.com/Graham-72
+Credits
+-------
 
-<h3>Acknowledgement</h3>
+* Ported to Backdrop by [Graham Oliver](https://github.com/Graham-72)
+* Maintained for Drupal by:
+  - vijaycs85 - Vijayachandran Mani;  
+  - cafuego - Peter Lieverdink;  
+  - KarenS - Karen Stevenson;  
+  - arlinsandbulte - Arlin Sandbulte;  
+  - developer-x
 
-This port to Backdrop would not, of course, be possible without all the work done by the developers and maintainers of the Drupal module.
+This port to Backdrop would not, of course, be possible without all the work 
+done by the developers and maintainers of the Drupal module.
+
+License
+-------
+
+This project is GPL v2 software. See the LICENSE.txt file in this directory for
+complete text.
+
+
